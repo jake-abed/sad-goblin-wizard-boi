@@ -1,17 +1,29 @@
 extends CharacterBody2D
 
-const SPEED = 125.0
 const ACCEL = 15.0
 
 @export var sprite: Sprite2D
+@export var wand: Sprite2D
+
+@export var speed := 5.0
+@export var health := 5.0
+@export var attack := 5.0
+@export var reflection := 5.0
+@export var toughness := 5.0
+@export var max_health := health
 
 @onready var gloob_tween := create_tween()
 @onready var shoob_tween := create_tween()
+
+var current_health := max_health
+var current_speed := 25.0 * speed
 
 func _ready() -> void:
 	gloob_and_shoob()
 
 func _physics_process(delta: float) -> void:
+	
+	wand.look_at(get_global_mouse_position())
 	
 	if Input.is_action_just_pressed("swap_h"):
 		global_position.x *= -1
@@ -24,15 +36,15 @@ func _physics_process(delta: float) -> void:
 	direction.y = Input.get_axis("move_up", "move_down")
 	
 	if direction.x > 0:
-		sprite.flip_h = false
+		sprite.scale.x = 0.25
 	elif direction.x < 0:
-		sprite.flip_h = true
+		sprite.scale.x = -0.25
 	
 	if direction.length() > 1.0:
 		direction = direction.normalized()
 	
 	if direction:
-		velocity = velocity.lerp(direction * SPEED, ACCEL * delta)
+		velocity = velocity.lerp(direction * current_speed, ACCEL * delta)
 		if (!gloob_tween.is_running() or !shoob_tween.is_running()):
 			gloob_tween.play()
 			shoob_tween.play()
@@ -45,8 +57,8 @@ func _physics_process(delta: float) -> void:
 
 func gloob_and_shoob() -> void:
 	var initial_scale = scale
-	var target_y_scale = scale.y * 1.04
-	var target_x_scale = scale.x * 1.07
+	var target_y_scale = scale.y * 0.97
+	var target_x_scale = scale.x * 1.03
 	
 	gloob_tween.set_loops()
 	shoob_tween.set_loops()
@@ -55,6 +67,6 @@ func gloob_and_shoob() -> void:
 	gloob_tween.set_ease(gloob_tween.EASE_IN_OUT)
 	shoob_tween.set_ease(gloob_tween.EASE_IN_OUT)
 	gloob_tween.tween_property(self, "scale:y", target_y_scale, 0.7)
-	gloob_tween.tween_property(self, "scale:y", initial_scale.y, 0.5)
+	gloob_tween.tween_property(self, "scale:y", initial_scale.y, 0.4)
 	shoob_tween.tween_property(self, "scale:x", target_x_scale, 0.4)
-	shoob_tween.tween_property(self, "scale:x", initial_scale.x, 1.0)
+	shoob_tween.tween_property(self, "scale:x", initial_scale.x, 0.7)
