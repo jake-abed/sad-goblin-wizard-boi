@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://3heotet66i6v"]
+
+[ext_resource type="Script" path="res://scenes/enemies/skull.gd" id="1_8byvy"]
+[ext_resource type="Script" path="res://scripts/state_machine.gd" id="2_knsre"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_6v3tj"]
+
+[node name="Skull" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "StateMachine")]
+script = ExtResource("1_8byvy")
+sprite = NodePath("Sprite2D")
+StateMachine = NodePath("SkullStateMachine")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_6v3tj")
+
+[node name="SkullStateMachine" type="Node" parent="."]
+script = ExtResource("2_knsre")

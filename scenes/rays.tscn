@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://coeqg6bvrdvej"]
+
+[ext_resource type="Script" path="res://scripts/rays.gd" id="1_35b4w"]
+
+[node name="Rays" type="Node2D" node_paths=PackedStringArray("n_ray", "nw_ray", "w_ray", "sw_ray", "s_ray", "se_ray", "e_ray", "ne_ray")]
+script = ExtResource("1_35b4w")
+n_ray = NodePath("NRay")
+nw_ray = NodePath("NWRay")
+w_ray = NodePath("WRay")
+sw_ray = NodePath("SWRay")
+s_ray = NodePath("SRay")
+se_ray = NodePath("SERay")
+e_ray = NodePath("ERay")
+ne_ray = NodePath("NERay")
+
+[node name="NRay" type="RayCast2D" parent="."]
+rotation = -3.14159
+
+[node name="WRay" type="RayCast2D" parent="."]
+rotation = 1.5708
+
+[node name="ERay" type="RayCast2D" parent="."]
+rotation = -1.5708
+
+[node name="SRay" type="RayCast2D" parent="."]
+
+[node name="NERay" type="RayCast2D" parent="."]
+rotation = -2.35619
+
+[node name="NWRay" type="RayCast2D" parent="."]
+rotation = 2.35619
+
+[node name="SWRay" type="RayCast2D" parent="."]
+rotation = 0.785398
+
+[node name="SERay" type="RayCast2D" parent="."]
+rotation = -0.785398

@@ -1,6 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://cosvginnrn0ox"]
+[gd_scene load_steps=7 format=4 uid="uid://cosvginnrn0ox"]
 
-[ext_resource type="PackedScene" uid="uid://bwej53v84rump" path="res://player.tscn" id="1_fjftn"]
+[ext_resource type="Texture2D" uid="uid://dcisxehdxff2n" path="res://assets/sprites/square_stone_floor.jpg" id="1_t1stp"]
+[ext_resource type="PackedScene" uid="uid://bwej53v84rump" path="res://scenes/player.tscn" id="2_vvi63"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rct6m"]
+texture = ExtResource("1_t1stp")
+texture_region_size = Vector2i(1000, 1000)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_arh5m"]
+tile_size = Vector2i(1000, 1000)
+sources/1 = SubResource("TileSetAtlasSource_rct6m")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_uu0m8"]
 
@@ -8,16 +18,13 @@
 
 [node name="TestRoom" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -960.0
-offset_top = -540.0
-offset_right = 960.0
-offset_bottom = 540.0
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+scale = Vector2(1.5, 1.5)
+tile_map_data = PackedByteArray("AAD+/wAAAQAAAAAAAAD//wAAAQAAAAAAAAD+////AQAAAAAAAAD/////AQAAAAAAAAAAAP//AQAAAAAAAAABAP//AQAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAEAAQAAAAAAAAD//wEAAQAAAAAAAAD+/wEAAQAAAAAAAAABAAEAAQAAAAAAAAD9/wEAAQAAAAAAAAD9/wAAAQAAAAAAAAD9////AQAAAAAAAAD9//7/AQAAAAAAAAD+//7/AQAAAAAAAAD///7/AQAAAAAAAAAAAP7/AQAAAAAAAAABAP7/AQAAAAAAAAACAP7/AQAAAAAAAAACAP//AQAAAAAAAAACAAAAAQAAAAAAAAACAAEAAQAAAAAAAAA=")
+tile_set = SubResource("TileSet_arh5m")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-scale = Vector2(1, 53.96)
+scale = Vector2(1, 110.24)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
 scale = Vector2(20, 20)
@@ -28,7 +35,7 @@ shape = SubResource("RectangleShape2D_mm285")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="."]
 rotation = 1.5708
-scale = Vector2(1, 96.8)
+scale = Vector2(1, 191.44)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D3"]
 scale = Vector2(20, 20)
@@ -38,9 +45,9 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 shape = SubResource("RectangleShape2D_mm285")
 
 [node name="StaticBody2D6" type="StaticBody2D" parent="."]
-position = Vector2(0, 540)
+position = Vector2(-1.22782e-10, 1080)
 rotation = 1.5708
-scale = Vector2(1, 96.8)
+scale = Vector2(1, 192.64)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D6"]
 scale = Vector2(20, 20)
@@ -50,9 +57,9 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 shape = SubResource("RectangleShape2D_mm285")
 
 [node name="StaticBody2D5" type="StaticBody2D" parent="."]
-position = Vector2(0, -540)
+position = Vector2(-1.21418e-10, -1074)
 rotation = 1.5708
-scale = Vector2(1, 96.8)
+scale = Vector2(1, 191.92)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D5"]
 scale = Vector2(20, 20)
@@ -62,8 +69,8 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 shape = SubResource("RectangleShape2D_mm285")
 
 [node name="StaticBody2D4" type="StaticBody2D" parent="."]
-position = Vector2(-960, 0)
-scale = Vector2(1, 53.96)
+position = Vector2(-1918, 0)
+scale = Vector2(1, 108.76)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D4"]
 scale = Vector2(20, 20)
@@ -73,8 +80,8 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 shape = SubResource("RectangleShape2D_mm285")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
-position = Vector2(960, 0)
-scale = Vector2(1, 53.96)
+position = Vector2(1920, 0)
+scale = Vector2(1, 108.8)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
 scale = Vector2(20, 20)
@@ -83,5 +90,5 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
 shape = SubResource("RectangleShape2D_mm285")
 
-[node name="Player" parent="." instance=ExtResource("1_fjftn")]
+[node name="Player" parent="." instance=ExtResource("2_vvi63")]
 position = Vector2(-848, 419)

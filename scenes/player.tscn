@@ -1,0 +1,109 @@
+[gd_scene load_steps=11 format=3 uid="uid://bwej53v84rump"]
+
+[ext_resource type="Texture2D" uid="uid://dissfi38hvqcm" path="res://assets/sprites/sad-goblin-wizard-boi.png" id="1_5ftme"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_lli1f"]
+[ext_resource type="Shader" path="res://scripts/outline.gdshader" id="2_vmp0l"]
+[ext_resource type="Texture2D" uid="uid://cr2vflamgev7n" path="res://assets/sprites/magic_wand.png" id="3_pkvwv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8d5qj"]
+shader = ExtResource("2_vmp0l")
+shader_parameter/maxLineWidth = 10.0
+shader_parameter/minLineWidth = 1.0
+shader_parameter/speed = 10.0
+shader_parameter/blockSize = 100.0
+shader_parameter/color = Color(0.662745, 1, 0.662745, 0.392157)
+shader_parameter/tolerance = 0.1
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_psbo4"]
+radius = 20.0
+height = 104.0
+
+[sub_resource type="Animation" id="Animation_dl28t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_f7hrm"]
+resource_name = "teleport_away"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_07oht"]
+resource_name = "teleport_in"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_30fjp"]
+_data = {
+"RESET": SubResource("Animation_dl28t"),
+"teleport_away": SubResource("Animation_f7hrm"),
+"teleport_in": SubResource("Animation_07oht")
+}
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "wand", "anim_player")]
+texture_filter = 4
+script = ExtResource("1_lli1f")
+sprite = NodePath("Sprite2D")
+wand = NodePath("Sprite2D/WandSprite")
+anim_player = NodePath("AnimationPlayer")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_8d5qj")
+position = Vector2(-1, -18)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_5ftme")
+offset = Vector2(-12, -12)
+
+[node name="WandSprite" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(-68, 208)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_pkvwv")
+offset = Vector2(108, 0)
+
+[node name="Marker2D" type="Marker2D" parent="Sprite2D/WandSprite"]
+position = Vector2(3, -200)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_psbo4")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_30fjp")
+}
