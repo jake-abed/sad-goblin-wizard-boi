@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://3heotet66i6v"]
+[gd_scene load_steps=7 format=3 uid="uid://3heotet66i6v"]
 
 [ext_resource type="Script" path="res://scripts/skull.gd" id="1_8byvy"]
 [ext_resource type="Texture2D" uid="uid://2uy5jwfet0n1" path="res://assets/sprites/smallskull.png" id="2_3p2ls"]
@@ -6,18 +6,18 @@
 [ext_resource type="Script" path="res://scripts/skull_wander_state.gd" id="3_g0cgh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o5kjs"]
-radius = 26.0
-height = 60.0
+radius = 11.0
 
-[node name="Skull" type="CharacterBody2D" node_paths=PackedStringArray("wander_state", "sprite", "StateMachine")]
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_lulhu"]
+
+[node name="Skull" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "StateMachine")]
 position = Vector2(295, 218)
 script = ExtResource("1_8byvy")
-wander_state = NodePath("SkullStateMachine/Wander")
 sprite = NodePath("Sprite2D")
 StateMachine = NodePath("SkullStateMachine")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_3p2ls")
 
 [node name="SkullStateMachine" type="Node" parent="." node_paths=PackedStringArray("states", "current_state")]
@@ -36,12 +36,15 @@ actor = NodePath("../..")
 one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 0)
 shape = SubResource("CapsuleShape2D_o5kjs")
 
 [node name="WanderPivot" type="Node2D" parent="."]
 
 [node name="WanderMarker" type="Marker2D" parent="WanderPivot"]
 position = Vector2(128, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="WanderPivot/WanderMarker"]
+scale = Vector2(4, 4)
+texture = SubResource("PlaceholderTexture2D_lulhu")
 
 [node name="Area2D" type="Area2D" parent="."]

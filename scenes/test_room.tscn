@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=4 uid="uid://cosvginnrn0ox"]
+[gd_scene load_steps=8 format=4 uid="uid://cosvginnrn0ox"]
 
 [ext_resource type="Texture2D" uid="uid://dcisxehdxff2n" path="res://assets/sprites/square_stone_floor.jpg" id="1_t1stp"]
 [ext_resource type="PackedScene" uid="uid://bwej53v84rump" path="res://scenes/player.tscn" id="2_vvi63"]
+[ext_resource type="PackedScene" uid="uid://3heotet66i6v" path="res://scenes/enemies/skull.tscn" id="3_pwvj7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rct6m"]
 texture = ExtResource("1_t1stp")
@@ -92,3 +93,6 @@ shape = SubResource("RectangleShape2D_mm285")
 
 [node name="Player" parent="." instance=ExtResource("2_vvi63")]
 position = Vector2(-848, 419)
+
+[node name="Skull" parent="." instance=ExtResource("3_pwvj7")]
+position = Vector2(-743, 671)
