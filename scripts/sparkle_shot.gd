@@ -14,9 +14,9 @@ func attack() -> void:
 	cooldown_timer.start()
 
 func set_projectile_attributes(projectile: Projectile) -> Projectile:
-	projectile.damage = base_damage + player.attack
-	projectile.collision_radius = 16.0
-	projectile.speed = base_speed + player.speed
+	projectile.damage = base_damage + player.attack / 2.0
+	projectile.collision_radius = 12.0
+	projectile.speed = base_speed + player.speed * 10.0
 	projectile.global_position = spawn.global_position
 	projectile.look_at(get_global_mouse_position())
 	return projectile

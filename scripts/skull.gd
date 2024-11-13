@@ -9,19 +9,27 @@ const BASE_ATTACK := 1.0
 @export var chasing_state: State
 @export var contact_area: Area2D
 @export var level := 1
+@export var hitbox_radius := 25.0
 
 @onready var shadow := $Shadow
+@onready var hitbox := $HitBox
+@onready var hitbox_shape: CircleShape2D = $HitBox/CollisionShape2D.shape
+@onready var hitbox_timer := $HitBox/Timer
 
 var target: Player
 var speed: float
 var health: float
 var attack: float
 
+
 func _ready() -> void:
 	contact_area.body_entered.connect(_on_body_entered)
 	contact_area.body_exited.connect(_on_body_exited)
+	hitbox.area_entered.connect(_on_hitbox_entered)
+	hitbox_timer.timeout.connect(_on_hitbox_timeout)
 	wander_state.state_finished.connect(_on_wander_finished)
 	pause_state.state_finished.connect(_on_pause_finished)
+	hitbox_shape.radius = hitbox_radius
 	set_stats()
 	animate()
 	print("Skull ready!")
@@ -29,7 +37,7 @@ func _ready() -> void:
 func set_stats() -> void:
 	speed = BASE_SPEED + level * 25.0
 	health = BASE_HP + level * 1.0
-	attack = BASE_ATTACK + level
+	attack = BASE_ATTACK + level - 1.0
 
 func animate() -> void:
 	var rotate_tween := create_tween()
@@ -81,3 +89,14 @@ func _on_pause_finished(_state: State) -> void:
 		state_machine.change_state(chasing_state)
 	else:
 		state_machine.change_state(wander_state)
+
+func _on_hitbox_entered(node: Node) -> void:
+	if node is HurtBox && node.get_parent() is Player:
+		node.get_parent().take_damage(attack)
+		hitbox_shape.radius = 0.01
+		hitbox_timer.start()
+		state_machine.change_state(pause_state)
+
+func _on_hitbox_timeout() -> void:
+	hitbox_shape.radius = hitbox_radius
+	hitbox_timer.stop()

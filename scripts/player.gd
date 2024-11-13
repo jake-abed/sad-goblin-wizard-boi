@@ -1,26 +1,29 @@
 class_name Player extends CharacterBody2D
 
 const ACCEL = 15.0
-const BASE_SPEED := 125.0
+const BASE_SPEED := 150.0
 
+@export_category("Connected Nodes")
 @export var sprite: Sprite2D
 @export var wand: Sprite2D
 @export var anim_player: AnimationPlayer
 @export var current_attack: Attack
+@export var hurtbox: Area2D
 
+@export_category("Stats")
 @export var speed := 5.0
-@export var health := 5.0
+@export var heart := 5.0
 @export var attack := 5.0
 @export var reflection := 5.0
-@export var toughness := 5.0
-@export var max_health := health
+@export var talent := 5.0
+@export var max_health := heart
 
 @onready var gloob_tween := create_tween()
 @onready var shoob_tween := create_tween()
 @onready var teleport_particles_scene := preload("res://scenes/teleport_particles.tscn")
 
 var current_health := max_health
-var current_speed := (5.0 * speed) + BASE_SPEED
+var current_speed := (10.0 * speed) + BASE_SPEED
 var can_move := true
 
 func _ready() -> void:
@@ -30,6 +33,16 @@ func _physics_process(delta: float) -> void:
 	
 	wand.look_at(get_global_mouse_position())
 	
+	if Input.is_action_just_pressed("level_speed"):
+		level_speed()
+		print("Current speed: ", current_speed)
+	
+	if Input.is_action_just_pressed("level_heart"):
+		level_heart()
+		print("Current health: ", current_health)
+	if Input.is_action_just_pressed("level_attack"):
+		level_attack()
+		print("Attack: ", attack)
 	if Input.is_action_just_pressed("swap_h") and can_move:
 		reflect_h()
 	
@@ -65,8 +78,8 @@ func _physics_process(delta: float) -> void:
 
 func gloob_and_shoob() -> void:
 	var initial_scale = scale
-	var target_y_scale = scale.y * 0.97
-	var target_x_scale = scale.x * 1.03
+	var target_y_scale = scale.y * 0.96
+	var target_x_scale = scale.x * 1.05
 	
 	gloob_tween.set_loops()
 	shoob_tween.set_loops()
@@ -107,3 +120,27 @@ func create_teleport_particles() -> void:
 	teleport_particles.global_position = global_position
 	teleport_particles.restart()
 	self.get_parent().add_child(teleport_particles)
+
+func take_damage(damage: float) -> void:
+	current_health -= damage
+	print(current_health)
+	if current_health <= 0.0:
+		queue_free()
+
+func level_speed() -> void:
+	speed += 1.0
+	current_speed = (10.0 * speed) + BASE_SPEED
+
+func level_heart() -> void:
+	heart += 1.0
+	max_health += 1.0
+	current_health += 1.0
+
+func level_attack() -> void:
+	attack += 1.0
+
+func level_reflection() -> void:
+	reflection += 1.0
+
+func level_talent() -> void:
+	talent += 1.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://3heotet66i6v"]
+[gd_scene load_steps=13 format=3 uid="uid://3heotet66i6v"]
 
 [ext_resource type="Script" path="res://scripts/skull.gd" id="1_8byvy"]
 [ext_resource type="Texture2D" uid="uid://2uy5jwfet0n1" path="res://assets/sprites/smallskull.png" id="2_3p2ls"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/skull_wander_state.gd" id="3_g0cgh"]
 [ext_resource type="Script" path="res://scenes/enemies/skull_chasing_state.gd" id="5_k8mlp"]
 [ext_resource type="Script" path="res://scenes/enemies/skull_pause_state.gd" id="6_txkka"]
+[ext_resource type="Script" path="res://scenes/enemies/hit_box.gd" id="7_86fn2"]
 
 [sub_resource type="Gradient" id="Gradient_f47nm"]
 colors = PackedColorArray(0, 0, 0, 0.654902, 0, 0, 0, 0)
@@ -18,11 +19,14 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.853211, 0.477064)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o5kjs"]
-radius = 26.0
-height = 60.0
+radius = 19.0
+height = 46.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ieekk"]
 radius = 384.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rd41j"]
+radius = 25.0
 
 [node name="Skull" type="CharacterBody2D" node_paths=PackedStringArray("wander_state", "pause_state", "chasing_state", "contact_area", "sprite", "state_machine")]
 script = ExtResource("1_8byvy")
@@ -69,7 +73,6 @@ actor = NodePath("../..")
 [node name="Timer" type="Timer" parent="SkullStateMachine/Pause"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(-1, 0)
 shape = SubResource("CapsuleShape2D_o5kjs")
 
@@ -82,3 +85,11 @@ position = Vector2(128, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ContactArea"]
 shape = SubResource("CircleShape2D_ieekk")
+
+[node name="HitBox" type="Area2D" parent="."]
+script = ExtResource("7_86fn2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_rd41j")
+
+[node name="Timer" type="Timer" parent="HitBox"]
