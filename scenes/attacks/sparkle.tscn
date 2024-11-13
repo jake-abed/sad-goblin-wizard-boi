@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnum3qqwlrw05"]
+
+[ext_resource type="Script" path="res://scripts/sparkle.gd" id="1_5vh7x"]
+[ext_resource type="Texture2D" uid="uid://b2kemksyy51te" path="res://assets/sprites/sparkle.png" id="2_02tdb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mkfrp"]
+radius = 14.0
+
+[node name="Sparkle" type="Area2D" node_paths=PackedStringArray("collision", "life_time")]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_5vh7x")
+collision = NodePath("CollisionShape2D")
+life_time = NodePath("Timer")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_mkfrp")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(4.76837e-07, -4.76837e-07)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_02tdb")

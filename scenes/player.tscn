@@ -1,17 +1,19 @@
-[gd_scene load_steps=11 format=3 uid="uid://bwej53v84rump"]
+[gd_scene load_steps=13 format=3 uid="uid://bwej53v84rump"]
 
 [ext_resource type="Texture2D" uid="uid://dissfi38hvqcm" path="res://assets/sprites/sad-goblin-wizard-boi.png" id="1_5ftme"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_lli1f"]
 [ext_resource type="Shader" path="res://scripts/outline.gdshader" id="2_vmp0l"]
 [ext_resource type="Texture2D" uid="uid://cr2vflamgev7n" path="res://assets/sprites/magic_wand.png" id="3_pkvwv"]
+[ext_resource type="PackedScene" uid="uid://c6ewon66b6v4d" path="res://scenes/attacks/sparkle_shot.tscn" id="5_1ri5w"]
+[ext_resource type="PackedScene" uid="uid://bnum3qqwlrw05" path="res://scenes/attacks/sparkle.tscn" id="6_8kggu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8d5qj"]
 shader = ExtResource("2_vmp0l")
-shader_parameter/maxLineWidth = 10.0
+shader_parameter/maxLineWidth = 16.0
 shader_parameter/minLineWidth = 1.0
 shader_parameter/speed = 10.0
-shader_parameter/blockSize = 100.0
-shader_parameter/color = Color(0.662745, 1, 0.662745, 0.392157)
+shader_parameter/blockSize = 5.0
+shader_parameter/color = Color(6.49765e-06, 0.82536, 0.198667, 0.443137)
 shader_parameter/tolerance = 0.1
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_psbo4"]
@@ -72,12 +74,13 @@ _data = {
 "teleport_in": SubResource("Animation_07oht")
 }
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "wand", "anim_player")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "wand", "anim_player", "current_attack")]
 texture_filter = 4
 script = ExtResource("1_lli1f")
 sprite = NodePath("Sprite2D")
 wand = NodePath("Sprite2D/WandSprite")
 anim_player = NodePath("AnimationPlayer")
+current_attack = NodePath("SparkleShot")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_8d5qj")
@@ -93,7 +96,7 @@ texture = ExtResource("3_pkvwv")
 offset = Vector2(108, 0)
 
 [node name="Marker2D" type="Marker2D" parent="Sprite2D/WandSprite"]
-position = Vector2(3, -200)
+position = Vector2(192, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_psbo4")
@@ -107,3 +110,12 @@ position_smoothing_speed = 6.0
 libraries = {
 "": SubResource("AnimationLibrary_30fjp")
 }
+
+[node name="SparkleShot" parent="." node_paths=PackedStringArray("cooldown_timer", "player", "spawn") instance=ExtResource("5_1ri5w")]
+cooldown_timer = NodePath("Timer")
+player = NodePath("..")
+spawn = NodePath("../Sprite2D/WandSprite/Marker2D")
+projectile = ExtResource("6_8kggu")
+
+[node name="Timer" type="Timer" parent="SparkleShot"]
+wait_time = 0.5

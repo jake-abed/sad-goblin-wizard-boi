@@ -1,11 +1,12 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
-const ACCEL = 25.0
+const ACCEL = 15.0
 const BASE_SPEED := 125.0
 
 @export var sprite: Sprite2D
 @export var wand: Sprite2D
 @export var anim_player: AnimationPlayer
+@export var current_attack: Attack
 
 @export var speed := 5.0
 @export var health := 5.0
@@ -34,6 +35,9 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("swap_v") and can_move:
 		reflect_v()
+	
+	if Input.is_action_pressed("primary_attack"):
+		current_attack.attack()
 	
 	var direction := Vector2(0, 0,)
 	direction.x = Input.get_axis("move_left", "move_right")

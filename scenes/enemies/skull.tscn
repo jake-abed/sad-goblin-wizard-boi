@@ -1,20 +1,41 @@
-[gd_scene load_steps=6 format=3 uid="uid://3heotet66i6v"]
+[gd_scene load_steps=11 format=3 uid="uid://3heotet66i6v"]
 
 [ext_resource type="Script" path="res://scripts/skull.gd" id="1_8byvy"]
 [ext_resource type="Texture2D" uid="uid://2uy5jwfet0n1" path="res://assets/sprites/smallskull.png" id="2_3p2ls"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="2_knsre"]
 [ext_resource type="Script" path="res://scripts/skull_wander_state.gd" id="3_g0cgh"]
+[ext_resource type="Script" path="res://scenes/enemies/skull_chasing_state.gd" id="5_k8mlp"]
+[ext_resource type="Script" path="res://scenes/enemies/skull_pause_state.gd" id="6_txkka"]
+
+[sub_resource type="Gradient" id="Gradient_f47nm"]
+colors = PackedColorArray(0, 0, 0, 0.654902, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sw6c8"]
+gradient = SubResource("Gradient_f47nm")
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.853211, 0.477064)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o5kjs"]
 radius = 26.0
 height = 60.0
 
-[node name="Skull" type="CharacterBody2D" node_paths=PackedStringArray("wander_state", "sprite", "StateMachine")]
-position = Vector2(295, 218)
+[sub_resource type="CircleShape2D" id="CircleShape2D_ieekk"]
+radius = 384.0
+
+[node name="Skull" type="CharacterBody2D" node_paths=PackedStringArray("wander_state", "pause_state", "chasing_state", "contact_area", "sprite", "state_machine")]
 script = ExtResource("1_8byvy")
 wander_state = NodePath("SkullStateMachine/Wander")
+pause_state = NodePath("SkullStateMachine/Pause")
+chasing_state = NodePath("SkullStateMachine/Chasing")
+contact_area = NodePath("ContactArea")
 sprite = NodePath("Sprite2D")
-StateMachine = NodePath("SkullStateMachine")
+state_machine = NodePath("SkullStateMachine")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 36)
+texture = SubResource("GradientTexture2D_sw6c8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
@@ -33,9 +54,22 @@ timer = NodePath("Timer")
 actor = NodePath("../..")
 
 [node name="Timer" type="Timer" parent="SkullStateMachine/Wander"]
+wait_time = 1.5
 one_shot = true
 
+[node name="Chasing" type="Node" parent="SkullStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("5_k8mlp")
+actor = NodePath("../..")
+
+[node name="Pause" type="Node" parent="SkullStateMachine" node_paths=PackedStringArray("timer", "actor")]
+script = ExtResource("6_txkka")
+timer = NodePath("Timer")
+actor = NodePath("../..")
+
+[node name="Timer" type="Timer" parent="SkullStateMachine/Pause"]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-1, 0)
 shape = SubResource("CapsuleShape2D_o5kjs")
 
@@ -44,4 +78,7 @@ shape = SubResource("CapsuleShape2D_o5kjs")
 [node name="WanderMarker" type="Marker2D" parent="WanderPivot"]
 position = Vector2(128, 0)
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="ContactArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactArea"]
+shape = SubResource("CircleShape2D_ieekk")
