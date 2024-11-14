@@ -8,7 +8,6 @@ func _ready() -> void:
 	play_float()
 
 func play_float() -> void:
-	print("floating")
 	var initial_scale = sprite.scale
 	var float_tween := create_tween()
 	var scale_tween := create_tween()

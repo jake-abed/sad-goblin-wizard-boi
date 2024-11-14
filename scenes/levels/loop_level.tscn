@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=4 uid="uid://cosvginnrn0ox"]
+[gd_scene load_steps=9 format=4 uid="uid://cosvginnrn0ox"]
 
 [ext_resource type="Texture2D" uid="uid://dcisxehdxff2n" path="res://assets/sprites/square_stone_floor.jpg" id="1_bh6ld"]
 [ext_resource type="PackedScene" uid="uid://bwej53v84rump" path="res://scenes/player.tscn" id="2_num0w"]
 [ext_resource type="PackedScene" uid="uid://3heotet66i6v" path="res://scenes/enemies/skull.tscn" id="3_0orkj"]
+[ext_resource type="PackedScene" uid="uid://dqilxjux1tnxu" path="res://scenes/enemies/enemy_spawner.tscn" id="4_v25fd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rct6m"]
 texture = ExtResource("1_bh6ld")
@@ -156,3 +157,9 @@ position = Vector2(578, -1550)
 [node name="Skull11" parent="." instance=ExtResource("3_0orkj")]
 position = Vector2(-1515, -1555)
 level = 5
+
+[node name="EnemySpawner" parent="." instance=ExtResource("4_v25fd")]
+position = Vector2(-1640, -1761)
+enemy = ExtResource("3_0orkj")
+wait_time = 2.0
+level = 10

@@ -32,7 +32,6 @@ func _ready() -> void:
 	hitbox_shape.radius = hitbox_radius
 	set_stats()
 	animate()
-	print("Skull ready!")
 
 func set_stats() -> void:
 	speed = BASE_SPEED + level * 10.0
