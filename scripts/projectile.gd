@@ -7,3 +7,4 @@ class_name Projectile extends Area2D
 
 var damage: float
 var speed: float
+var size_scaling: float

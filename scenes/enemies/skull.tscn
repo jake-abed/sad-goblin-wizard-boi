@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://3heotet66i6v"]
+[gd_scene load_steps=14 format=3 uid="uid://3heotet66i6v"]
 
 [ext_resource type="Script" path="res://scripts/skull.gd" id="1_8byvy"]
 [ext_resource type="Texture2D" uid="uid://2uy5jwfet0n1" path="res://assets/sprites/smallskull.png" id="2_3p2ls"]
+[ext_resource type="PackedScene" uid="uid://cdcpuuy7rf00" path="res://scenes/xp.tscn" id="2_c7ttg"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="2_knsre"]
 [ext_resource type="Script" path="res://scripts/skull_wander_state.gd" id="3_g0cgh"]
 [ext_resource type="Script" path="res://scenes/enemies/skull_chasing_state.gd" id="5_k8mlp"]
@@ -36,6 +37,7 @@ chasing_state = NodePath("SkullStateMachine/Chasing")
 contact_area = NodePath("ContactArea")
 sprite = NodePath("Sprite2D")
 state_machine = NodePath("SkullStateMachine")
+xp = ExtResource("2_c7ttg")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 position = Vector2(0, 36)

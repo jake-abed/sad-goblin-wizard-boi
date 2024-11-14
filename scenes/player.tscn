@@ -5,8 +5,8 @@
 [ext_resource type="Shader" path="res://scripts/outline.gdshader" id="2_vmp0l"]
 [ext_resource type="Texture2D" uid="uid://cr2vflamgev7n" path="res://assets/sprites/magic_wand.png" id="3_pkvwv"]
 [ext_resource type="PackedScene" uid="uid://c6ewon66b6v4d" path="res://scenes/attacks/sparkle_shot.tscn" id="5_1ri5w"]
-[ext_resource type="PackedScene" uid="uid://bnum3qqwlrw05" path="res://scenes/attacks/sparkle.tscn" id="6_8kggu"]
 [ext_resource type="Script" path="res://scenes/hurt_box.gd" id="7_i3tmc"]
+[ext_resource type="Theme" uid="uid://c7gqp2i6ubpwy" path="res://ui_theme.tres" id="8_wgid0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8d5qj"]
 shader = ExtResource("2_vmp0l")
@@ -96,7 +96,7 @@ texture = ExtResource("1_5ftme")
 offset = Vector2(-12, -12)
 
 [node name="WandSprite" type="Sprite2D" parent="Sprite2D"]
-position = Vector2(-68, 208)
+position = Vector2(-76, 208)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_pkvwv")
 offset = Vector2(108, 0)
@@ -122,10 +122,9 @@ libraries = {
 cooldown_timer = NodePath("Timer")
 player = NodePath("..")
 spawn = NodePath("../Sprite2D/WandSprite/Marker2D")
-projectile = ExtResource("6_8kggu")
+base_speed = 350.0
 
 [node name="Timer" type="Timer" parent="SparkleShot"]
-wait_time = 0.5
 
 [node name="HurtBox" type="Area2D" parent="."]
 script = ExtResource("7_i3tmc")
@@ -133,3 +132,144 @@ script = ExtResource("7_i3tmc")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2(-1, 4)
 shape = SubResource("CapsuleShape2D_mebef")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="LevelUpControl" type="Control" parent="CanvasLayer"]
+unique_name_in_owner = true
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("8_wgid0")
+
+[node name="Panel" type="Panel" parent="CanvasLayer/LevelUpControl"]
+custom_minimum_size = Vector2(500, 600)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -300.0
+offset_right = 250.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_wgid0")
+
+[node name="LevelUpHeader" type="Label" parent="CanvasLayer/LevelUpControl/Panel"]
+layout_mode = 2
+offset_left = 137.0
+offset_top = 58.0
+offset_right = 363.0
+offset_bottom = 125.0
+theme = ExtResource("8_wgid0")
+theme_override_font_sizes/font_size = 48
+text = "LEVEL UP!"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/LevelUpControl/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -213.0
+offset_top = -153.0
+offset_right = 214.0
+offset_bottom = 228.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_wgid0")
+columns = 3
+
+[node name="SpeedLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+layout_mode = 2
+tooltip_text = "Speed increases your movement speed and projectile speed."
+mouse_filter = 0
+text = "Speed:        "
+
+[node name="SpeedLevelLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "5"
+
+[node name="SpeedButton" type="Button" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("8_wgid0")
+text = "+"
+
+[node name="HeartLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+layout_mode = 2
+tooltip_text = "Heart controls max Hit Points."
+mouse_filter = 0
+text = "Heart:         "
+
+[node name="HeartLevelLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "5"
+
+[node name="HeartButton" type="Button" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+"
+
+[node name="AttackLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+layout_mode = 2
+tooltip_text = "Attack governs damages for all projectiles."
+mouse_filter = 0
+text = "Attack:        "
+horizontal_alignment = 1
+
+[node name="AttackLevelLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "5"
+
+[node name="AttackButton" type="Button" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+"
+
+[node name="ReflectionLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+layout_mode = 2
+tooltip_text = "Reflection governs self-esteeem and knowledge of self."
+mouse_filter = 0
+text = "Reflection: "
+
+[node name="ReflectionLevelLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "5"
+
+[node name="ReflectionButton" type="Button" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+"
+
+[node name="TalentLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+layout_mode = 2
+tooltip_text = "Talent governs projectile fire rate and projectile size."
+mouse_filter = 0
+text = "Talent:        "
+
+[node name="TalentLevelLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "5"
+
+[node name="TalentButton" type="Button" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+"

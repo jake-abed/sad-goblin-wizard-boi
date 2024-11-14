@@ -35,8 +35,8 @@ func _ready() -> void:
 	print("Skull ready!")
 
 func set_stats() -> void:
-	speed = BASE_SPEED + level * 25.0
-	health = BASE_HP + level * 1.0
+	speed = BASE_SPEED + level * 10.0
+	health = BASE_HP + level * 2.0
 	attack = BASE_ATTACK + level - 1.0
 
 func animate() -> void:
@@ -60,8 +60,17 @@ func animate() -> void:
 	squash_tween.tween_property(sprite, "scale:y", initial_y_scale * 1.01, 0.75)
 
 func take_damage(damage: float) -> void:
+	var tween := create_tween()
+	tween.set_ease(Tween.EASE_OUT_IN)
+	tween.set_parallel(false)
+	var sprite_scale := sprite.scale
+	tween.tween_property(sprite, "scale", sprite_scale * (1 - (damage * 0.03)), 0.1)
+	tween.tween_property(sprite, "scale", sprite_scale, 0.1)
 	health -= damage
 	if health <= 0.0:
+		var xp: Xp = xp.instantiate()
+		xp.global_position = global_position
+		get_tree().root.call_deferred("add_child", xp)
 		queue_free()
 
 func _on_body_entered(node: Node2D) -> void:

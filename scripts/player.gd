@@ -10,23 +10,44 @@ const BASE_SPEED := 150.0
 @export var current_attack: Attack
 @export var hurtbox: Area2D
 
-@export_category("Stats")
+@export_category("Stats - S.H.A.R.T.")
 @export var speed := 5.0
 @export var heart := 5.0
 @export var attack := 5.0
 @export var reflection := 5.0
 @export var talent := 5.0
-@export var max_health := heart
 
 @onready var gloob_tween := create_tween()
 @onready var shoob_tween := create_tween()
 @onready var teleport_particles_scene := preload("res://scenes/teleport_particles.tscn")
+@onready var level_up_control := %LevelUpControl
+@onready var speed_button := %SpeedButton
+@onready var speed_level_label := %SpeedLevelLabel
+@onready var heart_button := %HeartButton
+@onready var heart_level_label := %HeartLevelLabel
+@onready var attack_button := %AttackButton
+@onready var attack_level_label := %AttackLevelLabel
+@onready var reflection_button := %ReflectionButton
+@onready var reflection_level_label := %ReflectionLevelLabel
+@onready var talent_button := %TalentButton
+@onready var talent_level_label := %TalentLevelLabel
 
+var max_health := heart
 var current_health := max_health
-var current_speed := (10.0 * speed) + BASE_SPEED
+var current_speed := (25.0 * speed) + BASE_SPEED
 var can_move := true
 
+## For leveling first level should take 10 xp and an additional 10 xp per level
+var level := 1
+var xp := 0.0
+var xp_to_next_level := 10
+
 func _ready() -> void:
+	speed_button.pressed.connect(level_speed)
+	heart_button.pressed.connect(level_heart)
+	attack_button.pressed.connect(level_attack)
+	reflection_button.pressed.connect(level_reflection)
+	talent_button.pressed.connect(level_talent)
 	gloob_and_shoob()
 
 func _physics_process(delta: float) -> void:
@@ -40,9 +61,22 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("level_heart"):
 		level_heart()
 		print("Current health: ", current_health)
+	
 	if Input.is_action_just_pressed("level_attack"):
 		level_attack()
 		print("Attack: ", attack)
+	
+	if Input.is_action_just_pressed("level_reflection"):
+		level_reflection()
+		print("Reflection: ", reflection)
+	
+	if Input.is_action_just_pressed("level_talent"):
+		level_talent()
+		print("Talent: ", talent)
+	
+	if Input.is_action_just_pressed("level_up"):
+		level_up()
+	
 	if Input.is_action_just_pressed("swap_h") and can_move:
 		reflect_h()
 	
@@ -56,10 +90,14 @@ func _physics_process(delta: float) -> void:
 	direction.x = Input.get_axis("move_left", "move_right")
 	direction.y = Input.get_axis("move_up", "move_down")
 	
+	# This is kind of brittle, but it controls both the position and orientation
+	# of the wand and player sprite direction as they turn.
 	if direction.x > 0:
-		sprite.scale.x = 0.25
+		sprite.flip_h = false
+		wand.position.x = -76
 	elif direction.x < 0:
-		sprite.scale.x = -0.25
+		sprite.flip_h = true
+		wand.position.x = 52
 	
 	if direction.length() > 1.0:
 		direction = direction.normalized()
@@ -77,9 +115,9 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func gloob_and_shoob() -> void:
-	var initial_scale = scale
-	var target_y_scale = scale.y * 0.96
-	var target_x_scale = scale.x * 1.05
+	var initial_scale = sprite.scale
+	var target_y_scale = initial_scale.y * 0.96
+	var target_x_scale = initial_scale.x * 1.05
 	
 	gloob_tween.set_loops()
 	shoob_tween.set_loops()
@@ -87,10 +125,10 @@ func gloob_and_shoob() -> void:
 	shoob_tween.set_trans(gloob_tween.TRANS_SINE)
 	gloob_tween.set_ease(gloob_tween.EASE_IN_OUT)
 	shoob_tween.set_ease(gloob_tween.EASE_IN_OUT)
-	gloob_tween.tween_property(self, "scale:y", target_y_scale, 0.7)
-	gloob_tween.tween_property(self, "scale:y", initial_scale.y, 0.4)
-	shoob_tween.tween_property(self, "scale:x", target_x_scale, 0.4)
-	shoob_tween.tween_property(self, "scale:x", initial_scale.x, 0.7)
+	gloob_tween.tween_property(sprite, "scale:y", target_y_scale, 0.7)
+	gloob_tween.tween_property(sprite, "scale:y", initial_scale.y, 0.4)
+	shoob_tween.tween_property(sprite, "scale:x", target_x_scale, 0.4)
+	shoob_tween.tween_property(sprite, "scale:x", initial_scale.x, 0.7)
 
 func reflect_h() -> void:
 	can_move = false
@@ -127,20 +165,46 @@ func take_damage(damage: float) -> void:
 	if current_health <= 0.0:
 		queue_free()
 
+func gain_xp(amount: float) -> void:
+	xp += amount
+	if xp >= xp_to_next_level:
+		level_up()
+		xp_to_next_level += level * 10.0
+
 func level_speed() -> void:
 	speed += 1.0
-	current_speed = (10.0 * speed) + BASE_SPEED
+	speed_level_label.text = str(speed)
+	current_speed = (25.0 * speed) + BASE_SPEED
+	get_tree().paused = false
+	level_up_control.hide()
 
 func level_heart() -> void:
 	heart += 1.0
+	heart_level_label.text = str(heart)
 	max_health += 1.0
 	current_health += 1.0
+	get_tree().paused = false
+	level_up_control.hide()
 
 func level_attack() -> void:
 	attack += 1.0
+	attack_level_label.text = str(attack)
+	get_tree().paused = false
+	level_up_control.hide()
 
 func level_reflection() -> void:
 	reflection += 1.0
+	reflection_level_label.text = str(reflection)
+	get_tree().paused = false
+	level_up_control.hide()
 
 func level_talent() -> void:
 	talent += 1.0
+	talent_level_label.text = str(talent)
+	get_tree().paused = false
+	level_up_control.hide()
+
+func level_up() -> void:
+	get_tree().paused = true
+	level += 1
+	level_up_control.show()

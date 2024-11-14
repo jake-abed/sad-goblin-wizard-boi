@@ -28,5 +28,5 @@ func play_float() -> void:
 
 func _on_body_entered(node: Node2D) -> void:
 	if node is Player:
-		node.xp += value
+		node.gain_xp(value)
 		queue_free()

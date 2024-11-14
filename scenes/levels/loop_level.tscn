@@ -20,14 +20,14 @@ sources/1 = SubResource("TileSetAtlasSource_rct6m")
 [node name="LoopLevel" type="Node2D"]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(-750, -750)
 scale = Vector2(1.5, 1.5)
-tile_map_data = PackedByteArray("AAD+////AQAAAAAAAAABAP//AQAAAAAAAAABAAAAAQAAAAAAAAAAAAEAAQAAAAAAAAD//wEAAQAAAAAAAAABAAEAAQAAAAAAAAD+//7/AQAAAAAAAAD///7/AQAAAAAAAAAAAP7/AQAAAAAAAAABAP7/AQAAAAAAAAD+/wEAAQAAAAAAAAD+/wAAAQAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD//wEAAQAAAAAAAAAAAAEAAQAAAAAAAAABAAEAAQAAAAAAAAABAAAAAQAAAAAAAAABAP//AQAAAAAAAAAAAP//AQAAAAAAAAD/////AQAAAAAAAAD//wAAAQAAAAAAAAA=")
 tile_set = SubResource("TileSet_arh5m")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-visible = false
-position = Vector2(-1502, 1)
-scale = Vector2(1, 149.88)
+position = Vector2(-740, 1)
+scale = Vector2(1, 74.92)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
 scale = Vector2(20, 20)
@@ -37,9 +37,8 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 shape = SubResource("RectangleShape2D_mm285")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
-visible = false
-position = Vector2(1503, 1)
-scale = Vector2(1, 149.88)
+position = Vector2(742, 1)
+scale = Vector2(0.731, 74.92)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
 scale = Vector2(20, 20)
@@ -49,8 +48,7 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 shape = SubResource("RectangleShape2D_mm285")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="."]
-visible = false
-position = Vector2(-9.31323e-10, -2995)
+position = Vector2(9.31322e-10, -2260)
 rotation = 1.5708
 scale = Vector2(1, 449.68)
 
@@ -62,8 +60,7 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 shape = SubResource("RectangleShape2D_mm285")
 
 [node name="StaticBody2D6" type="StaticBody2D" parent="."]
-visible = false
-position = Vector2(1.2742e-09, 3017)
+position = Vector2(3.42877e-10, 2259)
 rotation = 1.5708
 scale = Vector2(1, 449.92)
 
@@ -75,10 +72,9 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 shape = SubResource("RectangleShape2D_mm285")
 
 [node name="StaticBody2D5" type="StaticBody2D" parent="."]
-visible = false
-position = Vector2(1.21418e-10, -1505)
+position = Vector2(4.57017e-11, -745)
 rotation = 1.5708
-scale = Vector2(1, 150.52)
+scale = Vector2(0.498, 74.92)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D5"]
 scale = Vector2(20, 20)
@@ -88,10 +84,9 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 shape = SubResource("RectangleShape2D_mm285")
 
 [node name="StaticBody2D8" type="StaticBody2D" parent="."]
-visible = false
-position = Vector2(-1.21418e-10, 1501)
+position = Vector2(-1, 746)
 rotation = 1.5708
-scale = Vector2(1, 150.52)
+scale = Vector2(0.498, 74.92)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D8"]
 scale = Vector2(20, 20)
@@ -101,8 +96,7 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 shape = SubResource("RectangleShape2D_mm285")
 
 [node name="StaticBody2D4" type="StaticBody2D" parent="."]
-visible = false
-position = Vector2(-3003, 0)
+position = Vector2(-2260, -53)
 scale = Vector2(1, 448.52)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D4"]
@@ -113,8 +107,7 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 shape = SubResource("RectangleShape2D_mm285")
 
 [node name="StaticBody2D7" type="StaticBody2D" parent="."]
-visible = false
-position = Vector2(3005, 0)
+position = Vector2(2260, -19)
 scale = Vector2(1, 448.52)
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D7"]
@@ -125,40 +118,41 @@ texture = SubResource("PlaceholderTexture2D_uu0m8")
 shape = SubResource("RectangleShape2D_mm285")
 
 [node name="Player" parent="." instance=ExtResource("2_num0w")]
-position = Vector2(-2005, -2164)
+position = Vector2(-1998, -1962)
 
 [node name="Skull" parent="." instance=ExtResource("3_0orkj")]
-position = Vector2(-2326, 2086)
+position = Vector2(-1691, 1702)
 collision_layer = 2
 collision_mask = 2
 level = 2
 
 [node name="Skull2" parent="." instance=ExtResource("3_0orkj")]
-position = Vector2(-436, 2270)
+position = Vector2(-634, 1665)
 
 [node name="Skull3" parent="." instance=ExtResource("3_0orkj")]
-position = Vector2(-2281, -999)
+position = Vector2(-1508, -597)
 
 [node name="Skull4" parent="." instance=ExtResource("3_0orkj")]
-position = Vector2(2332, -2297)
+position = Vector2(1643, -1518)
 
 [node name="Skull5" parent="." instance=ExtResource("3_0orkj")]
-position = Vector2(2162, 2059)
+position = Vector2(1599, 1076)
 
 [node name="Skull6" parent="." instance=ExtResource("3_0orkj")]
-position = Vector2(-490, -2231)
+position = Vector2(-586, -1536)
 
 [node name="Skull7" parent="." instance=ExtResource("3_0orkj")]
-position = Vector2(-2249, 499)
+position = Vector2(-1710, 619)
 
 [node name="Skull8" parent="." instance=ExtResource("3_0orkj")]
-position = Vector2(2216, -429)
+position = Vector2(1491, -381)
 
 [node name="Skull9" parent="." instance=ExtResource("3_0orkj")]
-position = Vector2(734, 2404)
+position = Vector2(464, 1523)
 
 [node name="Skull10" parent="." instance=ExtResource("3_0orkj")]
-position = Vector2(956, -2203)
+position = Vector2(578, -1550)
 
 [node name="Skull11" parent="." instance=ExtResource("3_0orkj")]
-position = Vector2(-2612, -2112)
+position = Vector2(-1515, -1555)
+level = 5
