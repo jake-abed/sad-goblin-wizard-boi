@@ -1,7 +1,7 @@
 class_name Skull extends Enemy
 
 const BASE_SPEED := 100.0
-const BASE_HP := 10.0
+const BASE_HP := 3.0
 const BASE_ATTACK := 1.0
 
 @export var wander_state: State
@@ -9,6 +9,7 @@ const BASE_ATTACK := 1.0
 @export var chasing_state: State
 @export var contact_area: Area2D
 @export var level := 1
+@export var xp_val := 10.0
 @export var hitbox_radius := 25.0
 
 @onready var shadow := $Shadow
@@ -36,7 +37,7 @@ func _ready() -> void:
 func set_stats() -> void:
 	speed = BASE_SPEED + level * 10.0
 	health = BASE_HP + level * 2.0
-	attack = BASE_ATTACK + level - 1.0
+	attack = (BASE_ATTACK + level) / 10.0
 
 func animate() -> void:
 	var rotate_tween := create_tween()
@@ -68,6 +69,7 @@ func take_damage(damage: float) -> void:
 	health -= damage
 	if health <= 0.0:
 		var xp: Xp = xp.instantiate()
+		xp.value = xp_val * level
 		xp.global_position = global_position
 		get_tree().root.call_deferred("add_child", xp)
 		queue_free()

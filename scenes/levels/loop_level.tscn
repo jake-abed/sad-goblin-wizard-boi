@@ -19,6 +19,7 @@ sources/1 = SubResource("TileSetAtlasSource_rct6m")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mm285"]
 
 [node name="LoopLevel" type="Node2D"]
+metadata/_edit_vertical_guides_ = [-3754.0]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(-750, -750)
@@ -125,7 +126,6 @@ position = Vector2(-1998, -1962)
 position = Vector2(-1691, 1702)
 collision_layer = 2
 collision_mask = 2
-level = 2
 
 [node name="Skull2" parent="." instance=ExtResource("3_0orkj")]
 position = Vector2(-634, 1665)
@@ -156,10 +156,34 @@ position = Vector2(578, -1550)
 
 [node name="Skull11" parent="." instance=ExtResource("3_0orkj")]
 position = Vector2(-1515, -1555)
-level = 5
 
 [node name="EnemySpawner" parent="." instance=ExtResource("4_v25fd")]
-position = Vector2(-1640, -1761)
+position = Vector2(-1561, -1772)
 enemy = ExtResource("3_0orkj")
-wait_time = 2.0
-level = 10
+wait_time = 9.0
+level = 3
+
+[node name="EnemySpawner6" parent="." instance=ExtResource("4_v25fd")]
+position = Vector2(-1601, -194)
+enemy = ExtResource("3_0orkj")
+wait_time = 8.0
+
+[node name="EnemySpawner2" parent="." instance=ExtResource("4_v25fd")]
+position = Vector2(-1380, 1328)
+enemy = ExtResource("3_0orkj")
+wait_time = 4.0
+
+[node name="EnemySpawner3" parent="." instance=ExtResource("4_v25fd")]
+position = Vector2(249, 1656)
+enemy = ExtResource("3_0orkj")
+wait_time = 8.0
+
+[node name="EnemySpawner4" parent="." instance=ExtResource("4_v25fd")]
+position = Vector2(611, -1218)
+enemy = ExtResource("3_0orkj")
+wait_time = 7.0
+
+[node name="EnemySpawner5" parent="." instance=ExtResource("4_v25fd")]
+position = Vector2(1714, 15)
+enemy = ExtResource("3_0orkj")
+wait_time = 8.0

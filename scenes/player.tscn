@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bwej53v84rump"]
+[gd_scene load_steps=17 format=3 uid="uid://bwej53v84rump"]
 
 [ext_resource type="Texture2D" uid="uid://dissfi38hvqcm" path="res://assets/sprites/sad-goblin-wizard-boi.png" id="1_5ftme"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_lli1f"]
@@ -6,7 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://cr2vflamgev7n" path="res://assets/sprites/magic_wand.png" id="3_pkvwv"]
 [ext_resource type="PackedScene" uid="uid://c6ewon66b6v4d" path="res://scenes/attacks/sparkle_shot.tscn" id="5_1ri5w"]
 [ext_resource type="Script" path="res://scenes/hurt_box.gd" id="7_i3tmc"]
+[ext_resource type="Texture2D" uid="uid://bfgq216riclpc" path="res://assets/sprites/bottle-glass.png" id="7_w4p5s"]
 [ext_resource type="Theme" uid="uid://c7gqp2i6ubpwy" path="res://ui_theme.tres" id="8_wgid0"]
+[ext_resource type="Texture2D" uid="uid://cnslsenevtdd8" path="res://assets/sprites/bottle-liquid.png" id="8_xn6or"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8d5qj"]
 shader = ExtResource("2_vmp0l")
@@ -79,7 +81,7 @@ _data = {
 radius = 22.0
 height = 98.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "wand", "anim_player", "current_attack", "hurtbox")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "wand", "anim_player", "current_attack", "hurtbox", "health_bar")]
 texture_filter = 4
 script = ExtResource("1_lli1f")
 sprite = NodePath("Sprite2D")
@@ -87,6 +89,7 @@ wand = NodePath("Sprite2D/WandSprite")
 anim_player = NodePath("AnimationPlayer")
 current_attack = NodePath("SparkleShot")
 hurtbox = NodePath("HurtBox")
+health_bar = NodePath("CanvasLayer/HUD/HealthBar")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_8d5qj")
@@ -134,6 +137,29 @@ position = Vector2(-1, 4)
 shape = SubResource("CapsuleShape2D_mebef")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer/HUD"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 144.0
+offset_bottom = 160.0
+step = 0.0
+value = 100.0
+fill_mode = 3
+texture_under = ExtResource("7_w4p5s")
+texture_progress = ExtResource("8_xn6or")
 
 [node name="LevelUpControl" type="Control" parent="CanvasLayer"]
 unique_name_in_owner = true

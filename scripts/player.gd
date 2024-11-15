@@ -9,6 +9,7 @@ const BASE_SPEED := 150.0
 @export var anim_player: AnimationPlayer
 @export var current_attack: Attack
 @export var hurtbox: Area2D
+@export var health_bar: TextureProgressBar
 
 @export_category("Stats - S.H.A.R.T.")
 @export var speed := 5.0
@@ -48,6 +49,7 @@ func _ready() -> void:
 	attack_button.pressed.connect(level_attack)
 	reflection_button.pressed.connect(level_reflection)
 	talent_button.pressed.connect(level_talent)
+	update_health_bar()
 	gloob_and_shoob()
 
 func _physics_process(delta: float) -> void:
@@ -161,9 +163,14 @@ func create_teleport_particles() -> void:
 
 func take_damage(damage: float) -> void:
 	current_health -= damage
-	print(current_health)
+	print("Took " + str(damage) + " damage. " + str(current_health) + " remains.")
+	update_health_bar()
 	if current_health <= 0.0:
 		queue_free()
+
+func update_health_bar() -> void:
+	health_bar.max_value = max_health
+	health_bar.value = current_health
 
 func gain_xp(amount: float) -> void:
 	xp += amount
@@ -183,6 +190,7 @@ func level_heart() -> void:
 	heart_level_label.text = str(heart)
 	max_health += 1.0
 	current_health += 1.0
+	update_health_bar()
 	get_tree().paused = false
 	level_up_control.hide()
 
