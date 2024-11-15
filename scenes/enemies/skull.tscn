@@ -95,3 +95,4 @@ script = ExtResource("7_86fn2")
 shape = SubResource("CircleShape2D_rd41j")
 
 [node name="Timer" type="Timer" parent="HitBox"]
+wait_time = 0.1

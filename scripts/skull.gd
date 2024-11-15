@@ -37,7 +37,7 @@ func _ready() -> void:
 func set_stats() -> void:
 	speed = BASE_SPEED + level * 10.0
 	health = BASE_HP + level * 2.0
-	attack = (BASE_ATTACK + level) / 10.0
+	attack = (BASE_ATTACK + level) / 50.0
 
 func animate() -> void:
 	var rotate_tween := create_tween()
