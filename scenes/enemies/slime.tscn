@@ -1,0 +1,99 @@
+[gd_scene load_steps=13 format=3 uid="uid://dbm55witj6btb"]
+
+[ext_resource type="Script" path="res://scenes/enemies/slime.gd" id="1_uvi53"]
+[ext_resource type="PackedScene" uid="uid://cdcpuuy7rf00" path="res://scenes/xp.tscn" id="2_jhcbk"]
+[ext_resource type="Texture2D" uid="uid://bua0h0qq26o7d" path="res://assets/sprites/slime.png" id="2_v0g6i"]
+[ext_resource type="Script" path="res://scenes/enemies/slime_wander_state.gd" id="4_frsgd"]
+[ext_resource type="Script" path="res://scripts/state_machine.gd" id="4_n7ctj"]
+[ext_resource type="Script" path="res://scripts/skull_pause_state.gd" id="7_27btv"]
+[ext_resource type="Script" path="res://scripts/hit_box.gd" id="8_kn6m8"]
+
+[sub_resource type="Gradient" id="Gradient_f47nm"]
+colors = PackedColorArray(0, 0, 0, 0.654902, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sw6c8"]
+gradient = SubResource("Gradient_f47nm")
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.853211, 0.477064)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o5kjs"]
+radius = 15.0
+height = 49.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ieekk"]
+radius = 768.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_62edq"]
+radius = 19.0
+height = 56.0
+
+[node name="Slime" type="CharacterBody2D" node_paths=PackedStringArray("wander_state", "pause_state", "sprite", "state_machine") groups=["enemy"]]
+script = ExtResource("1_uvi53")
+wander_state = NodePath("SlimeStateMachine/Wander")
+pause_state = NodePath("SlimeStateMachine/Pause")
+sprite = NodePath("Sprite2D")
+state_machine = NodePath("SlimeStateMachine")
+xp = ExtResource("2_jhcbk")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 17)
+scale = Vector2(1.44744, 0.87627)
+texture = SubResource("GradientTexture2D_sw6c8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_v0g6i")
+
+[node name="SlimeStateMachine" type="Node" parent="." node_paths=PackedStringArray("states", "current_state")]
+script = ExtResource("4_n7ctj")
+states = [NodePath("Wander")]
+current_state = NodePath("Wander")
+
+[node name="Wander" type="Node" parent="SlimeStateMachine" node_paths=PackedStringArray("wander_marker", "wander_pivot", "timer", "actor")]
+script = ExtResource("4_frsgd")
+wander_marker = NodePath("../../WanderPivot/WanderMarker")
+wander_pivot = NodePath("../../WanderPivot")
+timer = NodePath("Timer")
+actor = NodePath("../..")
+
+[node name="Timer" type="Timer" parent="SlimeStateMachine/Wander"]
+wait_time = 2.0
+one_shot = true
+
+[node name="Pause" type="Node" parent="SlimeStateMachine" node_paths=PackedStringArray("timer", "actor")]
+script = ExtResource("7_27btv")
+timer = NodePath("Timer")
+min_pause = 1.5
+actor = NodePath("../..")
+
+[node name="Timer" type="Timer" parent="SlimeStateMachine/Pause"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0.5, 5)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_o5kjs")
+
+[node name="WanderPivot" type="Node2D" parent="."]
+
+[node name="WanderMarker" type="Marker2D" parent="WanderPivot"]
+position = Vector2(128, 0)
+
+[node name="ContactArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactArea"]
+shape = SubResource("CircleShape2D_ieekk")
+
+[node name="HitBox" type="Area2D" parent="."]
+script = ExtResource("8_kn6m8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+visible = false
+position = Vector2(0.5, 2)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_62edq")
+
+[node name="Timer" type="Timer" parent="HitBox"]
+wait_time = 2.0

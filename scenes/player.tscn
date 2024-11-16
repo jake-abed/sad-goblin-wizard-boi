@@ -245,7 +245,7 @@ text = "Speed:        "
 [node name="SpeedLevelLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "1"
+text = "3"
 
 [node name="SpeedButton" type="Button" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
 unique_name_in_owner = true
@@ -262,7 +262,7 @@ text = "Heart:         "
 [node name="HeartLevelLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "1"
+text = "3"
 
 [node name="HeartButton" type="Button" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
 unique_name_in_owner = true
@@ -279,7 +279,7 @@ horizontal_alignment = 1
 [node name="AttackLevelLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "1"
+text = "3"
 
 [node name="AttackButton" type="Button" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
 unique_name_in_owner = true
@@ -295,7 +295,7 @@ text = "Reflection: "
 [node name="ReflectionLevelLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "1"
+text = "3"
 
 [node name="ReflectionButton" type="Button" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
 unique_name_in_owner = true
@@ -311,7 +311,7 @@ text = "Talent:        "
 [node name="TalentLevelLabel" type="Label" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "1"
+text = "3"
 
 [node name="TalentButton" type="Button" parent="CanvasLayer/LevelUpControl/Panel/GridContainer"]
 unique_name_in_owner = true

@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=4 uid="uid://bqfy5b35353gq"]
 
-[ext_resource type="Script" path="res://level.gd" id="1_p6wqt"]
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_p6wqt"]
 [ext_resource type="Shader" path="res://scripts/background.gdshader" id="2_j26m6"]
 [ext_resource type="Texture2D" uid="uid://dcisxehdxff2n" path="res://assets/sprites/square_stone_floor.jpg" id="3_62jlg"]
 [ext_resource type="Texture2D" uid="uid://cnsfspm34c1r" path="res://assets/sprites/blank.png" id="4_y7tyq"]

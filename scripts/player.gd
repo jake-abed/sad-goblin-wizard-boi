@@ -14,11 +14,11 @@ const BASE_SPEED := 150.0
 @export var health_bar: TextureProgressBar
 
 @export_category("Stats - S.H.A.R.T.")
-@export var speed := 1.0
-@export var heart := 1.0
-@export var attack := 1.0
-@export var reflection := 1.0
-@export var talent := 1.0
+@export var speed := 3.0
+@export var heart := 3.0
+@export var attack := 3.0
+@export var reflection := 3.0
+@export var talent := 3.0
 
 @onready var gloob_tween := create_tween()
 @onready var shoob_tween := create_tween()

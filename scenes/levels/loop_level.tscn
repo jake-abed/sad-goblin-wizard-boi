@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=4 uid="uid://cosvginnrn0ox"]
 
 [ext_resource type="Texture2D" uid="uid://dcisxehdxff2n" path="res://assets/sprites/square_stone_floor.jpg" id="1_bh6ld"]
-[ext_resource type="Script" path="res://level.gd" id="1_l1o4a"]
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_l1o4a"]
 [ext_resource type="Texture2D" uid="uid://cnsfspm34c1r" path="res://assets/sprites/blank.png" id="2_tkksb"]
 [ext_resource type="PackedScene" uid="uid://3heotet66i6v" path="res://scenes/enemies/skull.tscn" id="3_0orkj"]
 [ext_resource type="PackedScene" uid="uid://dqilxjux1tnxu" path="res://scenes/enemies/enemy_spawner.tscn" id="4_v25fd"]

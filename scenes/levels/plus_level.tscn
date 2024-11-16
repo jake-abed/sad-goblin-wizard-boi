@@ -1,11 +1,13 @@
-[gd_scene load_steps=13 format=4 uid="uid://b4ulnrrbsrda8"]
+[gd_scene load_steps=15 format=4 uid="uid://b4ulnrrbsrda8"]
 
 [ext_resource type="Texture2D" uid="uid://dcisxehdxff2n" path="res://assets/sprites/square_stone_floor.jpg" id="1_ompey"]
-[ext_resource type="Script" path="res://level.gd" id="1_qa5wj"]
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_qa5wj"]
 [ext_resource type="Shader" path="res://scripts/background.gdshader" id="2_l7fj1"]
 [ext_resource type="PackedScene" uid="uid://3heotet66i6v" path="res://scenes/enemies/skull.tscn" id="3_twwb5"]
 [ext_resource type="Texture2D" uid="uid://cnsfspm34c1r" path="res://assets/sprites/blank.png" id="4_b8c8d"]
 [ext_resource type="PackedScene" uid="uid://dqilxjux1tnxu" path="res://scenes/enemies/enemy_spawner.tscn" id="5_p55x2"]
+[ext_resource type="PackedScene" uid="uid://dbm55witj6btb" path="res://scenes/enemies/slime.tscn" id="7_20kil"]
+[ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="7_y5ule"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_icg5x"]
 shader = ExtResource("2_l7fj1")
@@ -56,17 +58,18 @@ physics_layer_0/collision_layer = 1
 sources/3 = SubResource("TileSetAtlasSource_tkfa8")
 sources/4 = SubResource("TileSetAtlasSource_vg73u")
 
-[node name="LoopLevel" type="Node2D" node_paths=PackedStringArray("spawners_one", "spawners_two", "spawners_three", "spawners_four", "start_point", "level_timer", "spawn_timer", "difficulty_timer", "timer_label")]
+[node name="SquaresLevel" type="Node2D" node_paths=PackedStringArray("spawners_one", "spawners_two", "spawners_three", "spawners_four", "start_point", "level_timer", "spawn_timer", "difficulty_timer", "timer_label")]
 script = ExtResource("1_qa5wj")
 spawners_one = [NodePath("EnemySpawner")]
-spawners_two = [NodePath("EnemySpawner4")]
-spawners_three = [NodePath("EnemySpawner6"), NodePath("EnemySpawner2")]
-spawners_four = [NodePath("EnemySpawner5"), NodePath("EnemySpawner3")]
+spawners_two = [NodePath("EnemySpawner4"), NodePath("EnemySpawner5"), NodePath("EnemySpawner10")]
+spawners_three = [NodePath("EnemySpawner6"), NodePath("EnemySpawner2"), NodePath("EnemySpawner9")]
+spawners_four = [NodePath("EnemySpawner5"), NodePath("EnemySpawner3"), NodePath("EnemySpawner11")]
 start_point = NodePath("Marker2D")
 level_timer = NodePath("LevelTimer")
 spawn_timer = NodePath("SpawnTimer")
 difficulty_timer = NodePath("DifficultyTimer")
 timer_label = NodePath("UILayer/Control/TimerLabel")
+level_length = 100.0
 metadata/_edit_vertical_guides_ = [-3754.0]
 
 [node name="BGLayer" type="CanvasLayer" parent="."]
@@ -134,8 +137,23 @@ enemy = ExtResource("3_twwb5")
 position = Vector2(428, -203)
 enemy = ExtResource("3_twwb5")
 
+[node name="EnemySpawner9" type="Node2D" parent="."]
+position = Vector2(-662, -147)
+script = ExtResource("7_y5ule")
+enemy = ExtResource("7_20kil")
+
+[node name="EnemySpawner10" type="Node2D" parent="."]
+position = Vector2(480, 144)
+script = ExtResource("7_y5ule")
+enemy = ExtResource("7_20kil")
+
+[node name="EnemySpawner11" type="Node2D" parent="."]
+position = Vector2(132, 815)
+script = ExtResource("7_y5ule")
+enemy = ExtResource("7_20kil")
+
 [node name="EnemySpawner5" parent="." instance=ExtResource("5_p55x2")]
-position = Vector2(849, 106)
+position = Vector2(891, 55)
 enemy = ExtResource("3_twwb5")
 
 [node name="LevelTimer" type="Timer" parent="."]
