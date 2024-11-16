@@ -4,19 +4,21 @@ const ACCEL = 15.0
 const BASE_SPEED := 150.0
 
 @export_category("Connected Nodes")
+@export var camera: Camera2D
 @export var sprite: Sprite2D
 @export var wand: Sprite2D
 @export var anim_player: AnimationPlayer
 @export var current_attack: Attack
+@export var secondary_attack: Attack
 @export var hurtbox: Area2D
 @export var health_bar: TextureProgressBar
 
 @export_category("Stats - S.H.A.R.T.")
-@export var speed := 5.0
-@export var heart := 5.0
-@export var attack := 5.0
-@export var reflection := 5.0
-@export var talent := 5.0
+@export var speed := 1.0
+@export var heart := 1.0
+@export var attack := 1.0
+@export var reflection := 1.0
+@export var talent := 1.0
 
 @onready var gloob_tween := create_tween()
 @onready var shoob_tween := create_tween()
@@ -37,6 +39,7 @@ var max_health := heart
 var current_health := max_health
 var current_speed := (25.0 * speed) + BASE_SPEED
 var can_move := true
+var is_dead := false
 
 ## For leveling first level should take 10 xp and an additional 10 xp per level
 var level := 1
@@ -56,37 +59,20 @@ func _physics_process(delta: float) -> void:
 	
 	wand.look_at(get_global_mouse_position())
 	
-	if Input.is_action_just_pressed("level_speed"):
-		level_speed()
-		print("Current speed: ", current_speed)
-	
-	if Input.is_action_just_pressed("level_heart"):
-		level_heart()
-		print("Current health: ", current_health)
-	
-	if Input.is_action_just_pressed("level_attack"):
-		level_attack()
-		print("Attack: ", attack)
-	
-	if Input.is_action_just_pressed("level_reflection"):
-		level_reflection()
-		print("Reflection: ", reflection)
-	
-	if Input.is_action_just_pressed("level_talent"):
-		level_talent()
-		print("Talent: ", talent)
-	
 	if Input.is_action_just_pressed("level_up"):
 		level_up()
 	
-	if Input.is_action_just_pressed("swap_h") and can_move:
+	if Input.is_action_just_pressed("horizontal_teleport") and can_move:
 		reflect_h()
 	
-	if Input.is_action_just_pressed("swap_v") and can_move:
+	if Input.is_action_just_pressed("vertical_teleport") and can_move:
 		reflect_v()
 	
 	if Input.is_action_pressed("primary_attack"):
 		current_attack.attack()
+	
+	if Input.is_action_pressed("secondary_attack"):
+		secondary_attack.attack()
 	
 	var direction := Vector2(0, 0,)
 	direction.x = Input.get_axis("move_left", "move_right")
@@ -163,10 +149,16 @@ func create_teleport_particles() -> void:
 
 func take_damage(damage: float) -> void:
 	current_health -= damage
+	camera.add_trauma(damage * 3)
 	print("Took " + str(damage) + " damage. " + str(current_health) + " remains.")
 	update_health_bar()
 	if current_health <= 0.0:
-		queue_free()
+		hide()
+		camera.trauma_power = 0.0
+		camera.trauma = 0
+		is_dead = true
+		can_move = false
+		$CollisionShape2D.call_deferred("set_disabled", true)
 
 func update_health_bar() -> void:
 	health_bar.max_value = max_health
@@ -176,7 +168,7 @@ func gain_xp(amount: float) -> void:
 	xp += amount
 	if xp >= xp_to_next_level:
 		level_up()
-		xp_to_next_level += level * 10.0
+		xp_to_next_level += level * 10
 
 func level_speed() -> void:
 	speed += 1.0

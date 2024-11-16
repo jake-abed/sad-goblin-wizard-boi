@@ -1,13 +1,14 @@
 extends Projectile
 
-@export var collision: CollisionShape2D
+@export var collision: CollisionPolygon2D
 
 var direction: Vector2
+var hits: int = 3
 
 func _ready() -> void:
-	spin()
 	direction = Vector2.RIGHT.rotated(rotation)
 	body_entered.connect(_on_body_entered)
+	grow()
 
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
@@ -17,11 +18,15 @@ func _on_body_entered(node: Node2D) -> void:
 		return
 	if node is Enemy:
 		node.take_damage(damage)
-	queue_free()
+	if hits <= 0:
+		queue_free()
+	else:
+		hits -= 1
 
-func spin() -> void:
+func grow() -> void:
+	var target_scale := scale
+	scale = target_scale * 0.01
 	var tween := create_tween()
-	tween.set_loops(0)
-	tween.set_parallel(false)
-	tween.tween_property($Sprite2D, "rotation_degrees", 360, 0.5)
-	tween.tween_property($Sprite2D, "rotation_degrees", 0, 0.0)
+	tween.set_ease(Tween.EASE_IN)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.tween_property(self, "scale", target_scale, 0.25)

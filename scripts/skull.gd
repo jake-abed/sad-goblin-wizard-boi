@@ -68,10 +68,10 @@ func take_damage(damage: float) -> void:
 	tween.tween_property(sprite, "scale", sprite_scale, 0.1)
 	health -= damage
 	if health <= 0.0:
-		var xp: Xp = xp.instantiate()
-		xp.value = xp_val * level
-		xp.global_position = global_position
-		get_tree().root.call_deferred("add_child", xp)
+		var xp_scene: Xp = xp.instantiate()
+		xp_scene.value = xp_val * level
+		xp_scene.global_position = global_position
+		get_tree().root.call_deferred("add_child", xp_scene)
 		queue_free()
 
 func _on_body_entered(node: Node2D) -> void:

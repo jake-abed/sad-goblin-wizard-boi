@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://b0sykcrjhl53y"]
 
 [ext_resource type="Texture2D" uid="uid://dsu1qasfcrhsb" path="res://assets/sprites/cloud.png" id="1_u5np5"]
-[ext_resource type="Script" path="res://scenes/teleport_particles.gd" id="2_t7a2b"]
+[ext_resource type="Script" path="res://scripts/teleport_particles.gd" id="2_t7a2b"]
 
 [sub_resource type="Curve" id="Curve_ekkp6"]
 _data = [Vector2(0.0533333, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.021978), 0.0, 0.0, 0, 0]

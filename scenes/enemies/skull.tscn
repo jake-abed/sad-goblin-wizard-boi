@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://cdcpuuy7rf00" path="res://scenes/xp.tscn" id="2_c7ttg"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="2_knsre"]
 [ext_resource type="Script" path="res://scripts/skull_wander_state.gd" id="3_g0cgh"]
-[ext_resource type="Script" path="res://scenes/enemies/skull_chasing_state.gd" id="5_k8mlp"]
-[ext_resource type="Script" path="res://scenes/enemies/skull_pause_state.gd" id="6_txkka"]
-[ext_resource type="Script" path="res://scenes/enemies/hit_box.gd" id="7_86fn2"]
+[ext_resource type="Script" path="res://scripts/skull_chasing_state.gd" id="5_k8mlp"]
+[ext_resource type="Script" path="res://scripts/skull_pause_state.gd" id="6_txkka"]
+[ext_resource type="Script" path="res://scripts/hit_box.gd" id="7_86fn2"]
 
 [sub_resource type="Gradient" id="Gradient_f47nm"]
 colors = PackedColorArray(0, 0, 0, 0.654902, 0, 0, 0, 0)
@@ -29,7 +29,7 @@ radius = 384.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_rd41j"]
 radius = 25.0
 
-[node name="Skull" type="CharacterBody2D" node_paths=PackedStringArray("wander_state", "pause_state", "chasing_state", "contact_area", "sprite", "state_machine")]
+[node name="Skull" type="CharacterBody2D" node_paths=PackedStringArray("wander_state", "pause_state", "chasing_state", "contact_area", "sprite", "state_machine") groups=["enemy"]]
 script = ExtResource("1_8byvy")
 wander_state = NodePath("SkullStateMachine/Wander")
 pause_state = NodePath("SkullStateMachine/Pause")
