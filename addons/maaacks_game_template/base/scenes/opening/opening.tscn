@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://sikc02ddepyt"]
+[gd_scene load_steps=3 format=3 uid="uid://sikc02ddepyt"]
 
 [ext_resource type="Script" path="res://addons/maaacks_game_template/base/scenes/opening/opening.gd" id="1_fcjph"]
+[ext_resource type="Texture2D" uid="uid://cdnlkwkrc27vk" path="res://assets/sprites/genya-red-black.jpg" id="2_ipr2q"]
 
 [node name="Opening" type="Control"]
 layout_mode = 3
@@ -10,7 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fcjph")
-next_scene = "res://addons/maaacks_game_template/base/scenes/menus/main_menu/main_menu.tscn"
+next_scene = "res://scenes/main_menu_with_animations.tscn"
 
 [node name="BackgroundMusicPlayer" type="AudioStreamPlayer" parent="."]
 process_mode = 3
@@ -25,3 +26,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="ImagesContainer"]
+layout_mode = 2
+texture = ExtResource("2_ipr2q")
+expand_mode = 3

@@ -4,9 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://cop411counyxw" path="res://assets/sprites/slimepellet.png" id="2_ya2y0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f0eoo"]
-radius = 11.0454
+radius = 9.33333
 
-[node name="Pellet" type="Area2D"]
+[node name="Pellet" type="Area2D" groups=["projectiles"]]
+scale = Vector2(0.75, 0.75)
 script = ExtResource("1_aqu25")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

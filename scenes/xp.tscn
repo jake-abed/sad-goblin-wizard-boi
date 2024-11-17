@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cnjx0hptyx6nt" path="res://assets/sprites/xp.png" id="2_v8ulq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_607n0"]
-radius = 17.0294
+radius = 32.0
 
 [node name="XP" type="Area2D" node_paths=PackedStringArray("sprite") groups=["drops"]]
 position = Vector2(73, 40)

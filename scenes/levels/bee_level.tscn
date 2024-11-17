@@ -1,0 +1,300 @@
+[gd_scene load_steps=19 format=4 uid="uid://byrmdyycjhwvu"]
+
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_7qx1s"]
+[ext_resource type="Shader" path="res://scripts/background.gdshader" id="2_dgq2i"]
+[ext_resource type="LabelSettings" uid="uid://b8hjk7u060n8e" path="res://scenes/timer_label.tres" id="3_h14nn"]
+[ext_resource type="Texture2D" uid="uid://dcisxehdxff2n" path="res://assets/sprites/square_stone_floor.jpg" id="4_pjpui"]
+[ext_resource type="Texture2D" uid="uid://cnsfspm34c1r" path="res://assets/sprites/blank.png" id="5_lcphw"]
+[ext_resource type="Script" path="res://scripts/spawner_group.gd" id="6_4wq5i"]
+[ext_resource type="PackedScene" uid="uid://dqilxjux1tnxu" path="res://scenes/enemies/enemy_spawner.tscn" id="7_6f6hp"]
+[ext_resource type="PackedScene" uid="uid://3heotet66i6v" path="res://scenes/enemies/skull.tscn" id="8_3cfji"]
+[ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="9_hdb7m"]
+[ext_resource type="PackedScene" uid="uid://cqunbngtlwxru" path="res://scenes/enemies/eyeball.tscn" id="9_vulwd"]
+[ext_resource type="PackedScene" uid="uid://dbm55witj6btb" path="res://scenes/enemies/slime.tscn" id="10_nbioo"]
+[ext_resource type="PackedScene" uid="uid://cit323l70ulyh" path="res://scenes/spawner_group.tscn" id="11_we1sl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_icg5x"]
+shader = ExtResource("2_dgq2i")
+shader_parameter/kelvin = 3247.19
+shader_parameter/red_colour = 3.5
+shader_parameter/green_colour = 16.8
+shader_parameter/blue_colour = 24.0
+shader_parameter/time_factor = 3.0
+shader_parameter/move = true
+shader_parameter/resolution = 0.01
+shader_parameter/sin_roll = 0.25
+shader_parameter/cos_roll = 0.39
+shader_parameter/alpha = 1.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_npfeb"]
+noise_type = 3
+seed = 69
+fractal_type = 3
+fractal_octaves = 10
+fractal_lacunarity = 5.0
+fractal_weighted_strength = 1.0
+fractal_ping_pong_strength = 5.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q4ecu"]
+width = 1920
+height = 1080
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_npfeb")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2dr2k"]
+texture = ExtResource("4_pjpui")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_liqpi"]
+texture = ExtResource("5_lcphw")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-100, -100, 100, -100, 100, 100, -100, 100)
+
+[sub_resource type="TileSet" id="TileSet_j8vct"]
+tile_size = Vector2i(200, 200)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_2dr2k")
+sources/1 = SubResource("TileSetAtlasSource_liqpi")
+
+[node name="BeeLevel" type="Node2D" node_paths=PackedStringArray("start_point", "level_timer", "spawn_timer", "difficulty_timer", "timer_label")]
+script = ExtResource("1_7qx1s")
+start_point = NodePath("Marker2D")
+level_timer = NodePath("LevelTimer")
+spawn_timer = NodePath("SpawnTimer")
+difficulty_timer = NodePath("DifficultyTimer")
+timer_label = NodePath("UILayer/Control/TimerLabel")
+metadata/_edit_vertical_guides_ = [-3754.0]
+
+[node name="BGLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="BGLayer"]
+material = SubResource("ShaderMaterial_icg5x")
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("NoiseTexture2D_q4ecu")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="UILayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="TimerLabel" type="Label" parent="UILayer/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+label_settings = ExtResource("3_h14nn")
+metadata/_edit_use_anchors_ = true
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(-150, -150)
+scale = Vector2(1.5, 1.5)
+tile_map_data = PackedByteArray("AAD/////AAAAAAEAAAD//wEAAAAAAAIAAAABAAEAAAAEAAIAAAABAP//AAAEAAAAAAD//wIAAAADAAQAAAD+/wEAAAAEAAQAAAACAAEAAAAEAAQAAAABAAIAAAAEAAMAAAABAP7/AAADAAQAAAACAP//AAABAAEAAAD+////AAADAAEAAAD///7/AAACAAAAAAD//wAAAAACAAAAAAABAAAAAAABAAIAAAD9////AAABAAMAAAD9//7/AAACAAMAAAD8////AAABAAIAAAD9/wEAAAAAAAMAAAD9/wIAAAADAAMAAAD8/wEAAAADAAQAAAADAAEAAAAEAAIAAAADAAIAAAACAAIAAAADAP//AAACAAQAAAADAP7/AAACAAMAAAD///3/AAACAAMAAAAAAP3/AQAAAAAAAAABAP3/AAADAAMAAAD///z/AAAAAAQAAAABAPz/AAADAAMAAAD//wMAAAABAAIAAAAAAAMAAQAAAAAAAAABAAMAAAADAAIAAAAEAAEAAAABAAMAAAAEAP//AAABAAIAAAAEAAIAAAABAAEAAAD8/wIAAAACAAMAAAAEAP7/AAABAAIAAAD8//7/AAABAAEAAAD7/wIAAAABAAMAAAD7/wMAAAAAAAEAAAD8/wMAAAADAAIAAAAEAAMAAAACAAMAAAAFAAIAAAAAAAIAAAAFAAMAAAAAAAEAAAD7//7/AAACAAIAAAD7//3/AAADAAEAAAD8//3/AAAAAAMAAAAEAP3/AAACAAQAAAAFAP3/AAACAAQAAAAFAP7/AAAEAAIAAAD+/wAAAAACAAMAAAACAAAAAAAAAAIAAAD//wQAAAABAAMAAAAAAAQAAQAAAAAAAAABAAQAAAADAAMAAAAAAPz/AQAAAAAAAAD6/wMAAAABAAEAAAD6/wQAAAACAAEAAAD7/wQAAAABAAIAAAD7//z/AAAEAAMAAAD6//3/AAAEAAQAAAD6//z/AAAEAAMAAAAFAPz/AAACAAMAAAAGAPz/AAADAAMAAAAGAP3/AAADAAQAAAAGAAMAAAADAAMAAAAGAAQAAAADAAQAAAAFAAQAAAACAAIAAAAAAAIAAAACAAIAAAAAAP7/AAACAAIAAAAAAAEAAAACAAEAAAAAAP//AAADAAAAAAD9/wAAAAACAAAAAAADAAAAAAABAAIAAAD+/wIAAAADAAEAAAD9/wMAAAADAAEAAAD8/wQAAAADAAEAAAD8/wUAAAAEAAIAAAD7/wUAAAADAAIAAAD6/wUAAQAAAAAAAAD5/wUAAQAAAAAAAAD5/wQAAQAAAAAAAAD5/wMAAQAAAAAAAAD6/wIAAQAAAAAAAAD7/wEAAQAAAAAAAAD8/wAAAAADAAEAAAD7////AQAAAAAAAAD6//7/AQAAAAAAAAD5//3/AQAAAAAAAAD5//z/AQAAAAAAAAD5//v/AQAAAAAAAAD6//v/AQAAAAAAAAD7//v/AAADAAIAAAD8//z/AAADAAEAAAD9//3/AAADAAEAAAD+//7/AAADAAEAAAD+//3/AAAAAAIAAAD+//z/AAAAAAIAAAD+//v/AQAAAAAAAAD///v/AAADAAEAAAAAAPv/AQAAAAAAAAABAPv/AAADAAEAAAACAPv/AQAAAAAAAAACAPz/AAAAAAIAAAACAP3/AAAAAAIAAAACAP7/AAADAAEAAAAAAAAAAQAAAAAAAAADAP3/AAADAAEAAAAEAPz/AAADAAEAAAAEAPv/AAADAAIAAAAFAPv/AAAEAAIAAAAGAPv/AQAAAAAAAAAHAPv/AQAAAAAAAAAHAPz/AQAAAAAAAAAHAP3/AQAAAAAAAAAHAP7/AQAAAAAAAAAHAP//AQAAAAAAAAAGAP7/AQAAAAAAAAAGAP//AQAAAAAAAAAFAP//AQAAAAAAAAAFAAAAAQAAAAAAAAAEAAAAAAADAAEAAAAFAAEAAQAAAAAAAAAGAAIAAQAAAAAAAAAGAAEAAQAAAAAAAAAHAAIAAQAAAAAAAAAHAAMAAQAAAAAAAAAHAAQAAQAAAAAAAAAHAAUAAQAAAAAAAAAGAAUAAQAAAAAAAAAFAAUAAAAEAAIAAAAEAAUAAAADAAIAAAAEAAQAAAADAAEAAAADAAQAAQAAAAAAAAADAAMAAAADAAEAAAACAAMAAAADAAIAAAACAAIAAAADAAEAAAACAAQAAAACAAIAAAACAAUAAQAAAAAAAAABAAUAAAABAAMAAAAAAAUAAQAAAAAAAAD//wUAAAADAAEAAAD+/wUAAQAAAAAAAAD+/wQAAAACAAIAAAD+/wMAAAABAAIAAAD9/wQAAQAAAAAAAAD5/wIAAQAAAAAAAAD6/wEAAQAAAAAAAAD7/wAAAQAAAAAAAAD6////AQAAAAAAAAD5//7/AQAAAAAAAAD8//v/AAAEAAIAAAD9//z/AQAAAAAAAAD9/wUAAQAAAAAAAAD8/wYAAQAAAAAAAAD7/wYAAQAAAAAAAAD6/wYAAQAAAAAAAAD5/wYAAQAAAAAAAAD4/wYAAQAAAAAAAAD4/wUAAQAAAAAAAAD4/wQAAQAAAAAAAAD3/wMAAQAAAAAAAAD3/wIAAQAAAAAAAAD4/wIAAQAAAAAAAAD4/wMAAQAAAAAAAAD4//3/AQAAAAAAAAD4//z/AQAAAAAAAAD4//v/AQAAAAAAAAD4//r/AQAAAAAAAAD5//r/AQAAAAAAAAD6//r/AQAAAAAAAAD7//r/AQAAAAAAAAD8//r/AQAAAAAAAAD9//r/AQAAAAAAAAD9//v/AQAAAAAAAAD+//r/AQAAAAAAAAD///r/AQAAAAAAAAAAAPr/AQAAAAAAAAABAPr/AQAAAAAAAAACAPr/AQAAAAAAAAADAPv/AQAAAAAAAAADAPz/AQAAAAAAAAAEAPr/AQAAAAAAAAAFAPr/AQAAAAAAAAAGAPr/AQAAAAAAAAAHAPr/AQAAAAAAAAAIAPr/AQAAAAAAAAAIAPv/AQAAAAAAAAAIAPz/AQAAAAAAAAAIAP3/AQAAAAAAAAAIAP7/AQAAAAAAAAAGAAAAAQAAAAAAAAAEAAYAAQAAAAAAAAAFAAYAAQAAAAAAAAAGAAYAAQAAAAAAAAAHAAYAAQAAAAAAAAAIAAMAAQAAAAAAAAAIAAQAAQAAAAAAAAAIAAUAAQAAAAAAAAAIAAYAAQAAAAAAAAD+/wYAAQAAAAAAAAD//wYAAQAAAAAAAAAAAAYAAQAAAAAAAAABAAYAAQAAAAAAAAACAAYAAQAAAAAAAAA=")
+tile_set = SubResource("TileSet_j8vct")
+
+[node name="LevelTimer" type="Timer" parent="."]
+
+[node name="SpawnTimer" type="Timer" parent="."]
+
+[node name="DifficultyTimer" type="Timer" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(-379, -235)
+
+[node name="SpawnerGroup1" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(-1181, -628)
+script = ExtResource("6_4wq5i")
+
+[node name="EnemySpawner" parent="SpawnerGroup1" instance=ExtResource("7_6f6hp")]
+position = Vector2(-317, -443)
+enemy = ExtResource("8_3cfji")
+
+[node name="EnemySpawner10" parent="SpawnerGroup1" instance=ExtResource("7_6f6hp")]
+position = Vector2(-55, -60)
+enemy = ExtResource("8_3cfji")
+
+[node name="EnemySpawner11" parent="SpawnerGroup1" instance=ExtResource("7_6f6hp")]
+position = Vector2(276, 349)
+enemy = ExtResource("9_vulwd")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup1"]
+position = Vector2(954, 78)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("10_nbioo")
+
+[node name="EnemySpawner3" type="Node2D" parent="SpawnerGroup1"]
+position = Vector2(-101, -667)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("9_vulwd")
+
+[node name="SpawnerGroup2" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(1285, -658)
+script = ExtResource("6_4wq5i")
+
+[node name="EnemySpawner4" parent="SpawnerGroup2" instance=ExtResource("7_6f6hp")]
+position = Vector2(49, -761)
+enemy = ExtResource("8_3cfji")
+
+[node name="EnemySpawner5" parent="SpawnerGroup2" instance=ExtResource("7_6f6hp")]
+position = Vector2(-10, -236)
+enemy = ExtResource("8_3cfji")
+
+[node name="EnemySpawner8" parent="SpawnerGroup2" instance=ExtResource("7_6f6hp")]
+position = Vector2(-903, -553)
+enemy = ExtResource("9_vulwd")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup2"]
+position = Vector2(-555, 237)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("10_nbioo")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup2"]
+position = Vector2(-162, 461)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("9_vulwd")
+
+[node name="SpawnerGroup3" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(-1062, 526)
+script = ExtResource("6_4wq5i")
+
+[node name="EnemySpawner6" parent="SpawnerGroup3" instance=ExtResource("7_6f6hp")]
+position = Vector2(-625, 519)
+enemy = ExtResource("8_3cfji")
+
+[node name="EnemySpawner8" parent="SpawnerGroup3" instance=ExtResource("7_6f6hp")]
+position = Vector2(-95, 269)
+enemy = ExtResource("10_nbioo")
+
+[node name="EnemySpawner2" parent="SpawnerGroup3" instance=ExtResource("7_6f6hp")]
+position = Vector2(529, -404)
+enemy = ExtResource("8_3cfji")
+
+[node name="EnemySpawner7" parent="SpawnerGroup3" instance=ExtResource("7_6f6hp")]
+position = Vector2(652, 615)
+enemy = ExtResource("9_vulwd")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup3"]
+position = Vector2(-322, 749)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("9_vulwd")
+
+[node name="SpawnerGroup4" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(1126, 514)
+script = ExtResource("6_4wq5i")
+
+[node name="EnemySpawner3" parent="SpawnerGroup4" instance=ExtResource("7_6f6hp")]
+position = Vector2(241, 902)
+enemy = ExtResource("8_3cfji")
+
+[node name="EnemySpawner9" parent="SpawnerGroup4" instance=ExtResource("7_6f6hp")]
+position = Vector2(395, 444)
+enemy = ExtResource("8_3cfji")
+
+[node name="EnemySpawner5" parent="SpawnerGroup4" instance=ExtResource("7_6f6hp")]
+position = Vector2(-307, -260)
+enemy = ExtResource("8_3cfji")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup4"]
+position = Vector2(-738, 479)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("10_nbioo")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup4"]
+position = Vector2(-490, 0)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("9_vulwd")
+
+[node name="SpawnerGroup5" parent="." instance=ExtResource("11_we1sl")]
+position = Vector2(-5, -1023)
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup5"]
+position = Vector2(-411, -136)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("10_nbioo")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup5"]
+position = Vector2(-928, 1083)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("10_nbioo")
+
+[node name="EnemySpawner3" type="Node2D" parent="SpawnerGroup5"]
+position = Vector2(378, 555)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("9_vulwd")
+
+[node name="EnemySpawner4" type="Node2D" parent="SpawnerGroup5"]
+position = Vector2(79, 559)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("8_3cfji")
+
+[node name="EnemySpawner5" type="Node2D" parent="SpawnerGroup5"]
+position = Vector2(1591, 0)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("9_vulwd")
+
+[node name="SpawnerGroup" type="Node2D" parent="."]
+position = Vector2(-10, 961)
+script = ExtResource("6_4wq5i")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup"]
+position = Vector2(-131, -515)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("10_nbioo")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup"]
+position = Vector2(574, -1029)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("8_3cfji")
+
+[node name="EnemySpawner3" type="Node2D" parent="SpawnerGroup"]
+position = Vector2(-1451, -150)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("9_vulwd")
+
+[node name="EnemySpawner4" type="Node2D" parent="SpawnerGroup"]
+position = Vector2(280, -580)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("8_3cfji")
+
+[node name="EnemySpawner5" type="Node2D" parent="SpawnerGroup"]
+position = Vector2(-581, -440)
+script = ExtResource("9_hdb7m")
+enemy = ExtResource("9_vulwd")

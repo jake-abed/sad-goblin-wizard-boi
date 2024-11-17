@@ -1,11 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://dbm55witj6btb"]
+[gd_scene load_steps=14 format=3 uid="uid://dbm55witj6btb"]
 
-[ext_resource type="Script" path="res://scenes/enemies/slime.gd" id="1_uvi53"]
+[ext_resource type="Script" path="res://scripts/slime.gd" id="1_uvi53"]
 [ext_resource type="PackedScene" uid="uid://cdcpuuy7rf00" path="res://scenes/xp.tscn" id="2_jhcbk"]
 [ext_resource type="Texture2D" uid="uid://bua0h0qq26o7d" path="res://assets/sprites/slime.png" id="2_v0g6i"]
-[ext_resource type="Script" path="res://scenes/enemies/slime_wander_state.gd" id="4_frsgd"]
+[ext_resource type="Script" path="res://scripts/slime_wander_state.gd" id="4_frsgd"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="4_n7ctj"]
 [ext_resource type="Script" path="res://scripts/skull_pause_state.gd" id="7_27btv"]
+[ext_resource type="AudioStream" uid="uid://brwt3ubvjxj3x" path="res://assets/audio/hit.wav" id="8_7cufq"]
 [ext_resource type="Script" path="res://scripts/hit_box.gd" id="8_kn6m8"]
 
 [sub_resource type="Gradient" id="Gradient_f47nm"]
@@ -97,3 +98,12 @@ shape = SubResource("CapsuleShape2D_62edq")
 
 [node name="Timer" type="Timer" parent="HitBox"]
 wait_time = 2.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_7cufq")
+volume_db = 5.0
+max_distance = 1000.0
+
+[node name="AudioTimer" type="Timer" parent="AudioStreamPlayer2D"]
+wait_time = 0.25
+one_shot = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://3heotet66i6v"]
+[gd_scene load_steps=15 format=3 uid="uid://3heotet66i6v"]
 
 [ext_resource type="Script" path="res://scripts/skull.gd" id="1_8byvy"]
 [ext_resource type="Texture2D" uid="uid://2uy5jwfet0n1" path="res://assets/sprites/smallskull.png" id="2_3p2ls"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/skull_chasing_state.gd" id="5_k8mlp"]
 [ext_resource type="Script" path="res://scripts/skull_pause_state.gd" id="6_txkka"]
 [ext_resource type="Script" path="res://scripts/hit_box.gd" id="7_86fn2"]
+[ext_resource type="AudioStream" uid="uid://brwt3ubvjxj3x" path="res://assets/audio/hit.wav" id="9_q17nu"]
 
 [sub_resource type="Gradient" id="Gradient_f47nm"]
 colors = PackedColorArray(0, 0, 0, 0.654902, 0, 0, 0, 0)
@@ -96,3 +97,12 @@ shape = SubResource("CircleShape2D_rd41j")
 
 [node name="Timer" type="Timer" parent="HitBox"]
 wait_time = 0.1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_q17nu")
+volume_db = 5.0
+max_distance = 1000.0
+
+[node name="AudioTimer" type="Timer" parent="AudioStreamPlayer2D"]
+wait_time = 0.25
+one_shot = true

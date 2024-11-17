@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/rainbow.gd" id="1_me8vx"]
 [ext_resource type="Texture2D" uid="uid://ci5hxb5qyida6" path="res://assets/sprites/rainbow-beam.png" id="2_8s5re"]
 
-[node name="Rainbow" type="Area2D" node_paths=PackedStringArray("collision", "life_time")]
+[node name="Rainbow" type="Area2D" node_paths=PackedStringArray("collision", "life_time") groups=["projectiles"]]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_me8vx")

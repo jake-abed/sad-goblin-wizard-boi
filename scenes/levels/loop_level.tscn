@@ -1,13 +1,16 @@
-[gd_scene load_steps=13 format=4 uid="uid://cosvginnrn0ox"]
+[gd_scene load_steps=16 format=4 uid="uid://bnkfs8jyjwky5"]
 
 [ext_resource type="Texture2D" uid="uid://dcisxehdxff2n" path="res://assets/sprites/square_stone_floor.jpg" id="1_bh6ld"]
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_l1o4a"]
 [ext_resource type="Texture2D" uid="uid://cnsfspm34c1r" path="res://assets/sprites/blank.png" id="2_tkksb"]
 [ext_resource type="PackedScene" uid="uid://3heotet66i6v" path="res://scenes/enemies/skull.tscn" id="3_0orkj"]
-[ext_resource type="PackedScene" uid="uid://dqilxjux1tnxu" path="res://scenes/enemies/enemy_spawner.tscn" id="4_v25fd"]
+[ext_resource type="LabelSettings" uid="uid://b8hjk7u060n8e" path="res://scenes/timer_label.tres" id="3_6b3dy"]
 [ext_resource type="Shader" path="res://scripts/background.gdshader" id="5_yueef"]
+[ext_resource type="Script" path="res://scripts/spawner_group.gd" id="6_7p2ws"]
+[ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="9_uw2gt"]
+[ext_resource type="PackedScene" uid="uid://dbm55witj6btb" path="res://scenes/enemies/slime.tscn" id="10_dn4t8"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_icg5x"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6a74b"]
 shader = ExtResource("5_yueef")
 shader_parameter/kelvin = 1000.0
 shader_parameter/red_colour = 10.4
@@ -20,7 +23,7 @@ shader_parameter/sin_roll = 0.5
 shader_parameter/cos_roll = 0.5
 shader_parameter/alpha = 1.0
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_npfeb"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xu405"]
 noise_type = 3
 seed = 69
 fractal_type = 3
@@ -29,14 +32,14 @@ fractal_lacunarity = 5.0
 fractal_weighted_strength = 1.0
 fractal_ping_pong_strength = 5.0
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q4ecu"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xhngo"]
 width = 1920
 height = 1080
 seamless = true
 seamless_blend_skirt = 1.0
-noise = SubResource("FastNoiseLite_npfeb")
+noise = SubResource("FastNoiseLite_xu405")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tkfa8"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ecpv8"]
 texture = ExtResource("1_bh6ld")
 texture_region_size = Vector2i(500, 500)
 0:0/0 = 0
@@ -44,24 +47,20 @@ texture_region_size = Vector2i(500, 500)
 0:1/0 = 0
 1:1/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vg73u"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_clryr"]
 texture = ExtResource("2_tkksb")
 texture_region_size = Vector2i(500, 500)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-250, -250, 250, -250, 250, 250, -250, 250)
 
-[sub_resource type="TileSet" id="TileSet_arh5m"]
+[sub_resource type="TileSet" id="TileSet_r6tjf"]
 tile_size = Vector2i(500, 500)
 physics_layer_0/collision_layer = 1
-sources/3 = SubResource("TileSetAtlasSource_tkfa8")
-sources/4 = SubResource("TileSetAtlasSource_vg73u")
+sources/3 = SubResource("TileSetAtlasSource_ecpv8")
+sources/4 = SubResource("TileSetAtlasSource_clryr")
 
-[node name="LoopLevel" type="Node2D" node_paths=PackedStringArray("spawners_one", "spawners_two", "spawners_three", "spawners_four", "start_point", "level_timer", "spawn_timer", "difficulty_timer", "timer_label")]
+[node name="LoopLevel" type="Node2D" node_paths=PackedStringArray("start_point", "level_timer", "spawn_timer", "difficulty_timer", "timer_label")]
 script = ExtResource("1_l1o4a")
-spawners_one = [NodePath("EnemySpawner")]
-spawners_two = [NodePath("EnemySpawner4")]
-spawners_three = [NodePath("EnemySpawner6"), NodePath("EnemySpawner2")]
-spawners_four = [NodePath("EnemySpawner5"), NodePath("EnemySpawner3")]
 start_point = NodePath("Marker2D")
 level_timer = NodePath("LevelTimer")
 spawn_timer = NodePath("SpawnTimer")
@@ -73,10 +72,10 @@ metadata/_edit_vertical_guides_ = [-3754.0]
 layer = -1
 
 [node name="TextureRect" type="TextureRect" parent="BGLayer"]
-material = SubResource("ShaderMaterial_icg5x")
+material = SubResource("ShaderMaterial_6a74b")
 offset_right = 40.0
 offset_bottom = 40.0
-texture = SubResource("NoiseTexture2D_q4ecu")
+texture = SubResource("NoiseTexture2D_xhngo")
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 
@@ -87,6 +86,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="TimerLabel" type="Label" parent="UILayer/Control"]
 layout_mode = 1
@@ -97,37 +97,14 @@ offset_left = -20.0
 offset_right = 20.0
 offset_bottom = 23.0
 grow_horizontal = 2
+label_settings = ExtResource("3_6b3dy")
+metadata/_edit_use_anchors_ = true
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(-375, -375)
 scale = Vector2(1.5, 1.5)
-tile_map_data = PackedByteArray("AAD+/wEAAwAAAAEAAAD+/wIAAwAAAAEAAAD//wIAAwAAAAEAAAABAAIAAwAAAAEAAAACAAIAAwAAAAEAAAACAAEAAwAAAAEAAAACAP//AwAAAAEAAAACAP7/AwAAAAEAAAABAP7/AwAAAAEAAAD+//7/AwAAAAEAAAD+////AwAAAAEAAAD///7/AwABAAEAAAD9//7/BAAAAAAAAAD9////BAAAAAAAAAD9/wAABAAAAAAAAAD9/wEABAAAAAAAAAD9/wIABAAAAAAAAAD9/wMABAAAAAAAAAD+/wMABAAAAAAAAAD//wMABAAAAAAAAAAAAAMABAAAAAAAAAABAAMABAAAAAAAAAACAAMABAAAAAAAAAAAAP7/BAAAAAAAAAAAAP//BAAAAAAAAAAAAAAABAAAAAAAAAAAAAEABAAAAAAAAAAAAAIABAAAAAAAAAD/////BAAAAAAAAAD//wAABAAAAAAAAAD//wEABAAAAAAAAAABAP//BAAAAAAAAAABAAAABAAAAAAAAAABAAEABAAAAAAAAAACAAAABAAAAAAAAAD+/wAABAAAAAAAAAADAP7/BAAAAAAAAAADAP//BAAAAAAAAAADAAAABAAAAAAAAAADAAEABAAAAAAAAAADAAIABAAAAAAAAAD+//3/BAAAAAAAAAD///3/BAAAAAAAAAAAAP3/BAAAAAAAAAABAP3/BAAAAAAAAAACAP3/BAAAAAAAAAADAP3/BAAAAAAAAAA=")
-tile_set = SubResource("TileSet_arh5m")
-
-[node name="EnemySpawner" parent="." instance=ExtResource("4_v25fd")]
-position = Vector2(-1475, -721)
-enemy = ExtResource("3_0orkj")
-level = 3
-
-[node name="EnemySpawner6" parent="." instance=ExtResource("4_v25fd")]
-position = Vector2(-1538, 682)
-enemy = ExtResource("3_0orkj")
-
-[node name="EnemySpawner2" parent="." instance=ExtResource("4_v25fd")]
-position = Vector2(-977, 1522)
-enemy = ExtResource("3_0orkj")
-
-[node name="EnemySpawner3" parent="." instance=ExtResource("4_v25fd")]
-position = Vector2(747, 1535)
-enemy = ExtResource("3_0orkj")
-
-[node name="EnemySpawner4" parent="." instance=ExtResource("4_v25fd")]
-position = Vector2(1513, -1316)
-enemy = ExtResource("3_0orkj")
-
-[node name="EnemySpawner5" parent="." instance=ExtResource("4_v25fd")]
-position = Vector2(1539, 729)
-enemy = ExtResource("3_0orkj")
+tile_map_data = PackedByteArray("AAD9//7/BAAAAAAAAAD9////BAAAAAAAAAD9/wAABAAAAAAAAAD9/wEABAAAAAAAAAD9/wIABAAAAAAAAAD9/wMABAAAAAAAAAD+/wMABAAAAAAAAAD//wMABAAAAAAAAAAAAAMABAAAAAAAAAABAAMABAAAAAAAAAACAAMABAAAAAAAAAAAAP7/BAAAAAAAAAAAAP//BAAAAAAAAAAAAAAABAAAAAAAAAAAAAEABAAAAAAAAAAAAAIABAAAAAAAAAACAAAABAAAAAAAAAD+/wAABAAAAAAAAAADAP7/BAAAAAAAAAADAP//BAAAAAAAAAADAAAABAAAAAAAAAADAAEABAAAAAAAAAADAAIABAAAAAAAAAD+//3/BAAAAAAAAAD///3/BAAAAAAAAAAAAP3/BAAAAAAAAAABAP3/BAAAAAAAAAACAP3/BAAAAAAAAAADAP3/BAAAAAAAAAD+/wIAAwAAAAEAAAD//wIAAwABAAEAAAABAAIAAwABAAAAAAACAAIAAwAAAAAAAAACAP7/AwABAAEAAAD+//7/AwABAAEAAAD///7/AwABAAAAAAABAP7/AwAAAAAAAAD//wEABAAAAAAAAAD+/wEAAwABAAEAAAABAAEABAAAAAAAAAACAAEAAwAAAAEAAAACAP//AwAAAAEAAAABAP//BAAAAAAAAAD/////BAAAAAAAAAD+////AwAAAAAAAAA=")
+tile_set = SubResource("TileSet_r6tjf")
 
 [node name="LevelTimer" type="Timer" parent="."]
 
@@ -136,4 +113,89 @@ enemy = ExtResource("3_0orkj")
 [node name="DifficultyTimer" type="Timer" parent="."]
 
 [node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(-1661, -1646)
+position = Vector2(-1733, -1722)
+
+[node name="SpawnerGroup" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(-1378, -1403)
+script = ExtResource("6_7p2ws")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup"]
+position = Vector2(-311, 184)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("3_0orkj")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup"]
+position = Vector2(527, -172)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("3_0orkj")
+
+[node name="EnemySpawner3" type="Node2D" parent="SpawnerGroup"]
+position = Vector2(-44, 685)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("10_dn4t8")
+
+[node name="SpawnerGroup2" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(1416, -1410)
+script = ExtResource("6_7p2ws")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup2"]
+position = Vector2(190, -210)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("3_0orkj")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup2"]
+position = Vector2(107, 552)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("3_0orkj")
+
+[node name="EnemySpawner3" type="Node2D" parent="SpawnerGroup2"]
+position = Vector2(-572, -140)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("10_dn4t8")
+
+[node name="SpawnerGroup3" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(-1429, 1422)
+script = ExtResource("6_7p2ws")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup3"]
+position = Vector2(-44, -698)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("3_0orkj")
+
+[node name="SpawnerGroup5" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(-1429, 1422)
+script = ExtResource("6_7p2ws")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup5"]
+position = Vector2(-44, -698)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("3_0orkj")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup5"]
+position = Vector2(756, 58)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("3_0orkj")
+
+[node name="EnemySpawner3" type="Node2D" parent="SpawnerGroup5"]
+position = Vector2(-171, 172)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("10_dn4t8")
+
+[node name="SpawnerGroup4" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(1410, 1416)
+script = ExtResource("6_7p2ws")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup4"]
+position = Vector2(-705, 89)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("10_dn4t8")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup4"]
+position = Vector2(70, -546)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("10_dn4t8")
+
+[node name="EnemySpawner3" type="Node2D" parent="SpawnerGroup4"]
+position = Vector2(127, 140)
+script = ExtResource("9_uw2gt")
+enemy = ExtResource("3_0orkj")

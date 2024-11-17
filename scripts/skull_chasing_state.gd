@@ -1,9 +1,5 @@
 extends State
 
-@export var wander_marker: Marker2D
-@export var wander_pivot: Node2D
-@export var timer: Timer
-
 var destination: Vector2
 var direction: Vector2
 var tick_interval := randi_range(12, 18)
@@ -32,8 +28,3 @@ func enter_state() -> void:
 
 func exit_state() -> void:
 	set_physics_process(false)
-
-func _on_timer_timeout() -> void:
-	direction = Vector2.ZERO
-	state_finished.emit(self)
-	timer.stop()

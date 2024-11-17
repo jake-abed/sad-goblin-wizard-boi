@@ -1,5 +1,7 @@
 class_name Player extends CharacterBody2D
 
+signal died
+
 const ACCEL = 15.0
 const BASE_SPEED := 150.0
 
@@ -12,6 +14,7 @@ const BASE_SPEED := 150.0
 @export var secondary_attack: Attack
 @export var hurtbox: Area2D
 @export var health_bar: TextureProgressBar
+@export var xp_audio: AudioStreamPlayer
 
 @export_category("Stats - S.H.A.R.T.")
 @export var speed := 3.0
@@ -34,12 +37,17 @@ const BASE_SPEED := 150.0
 @onready var reflection_level_label := %ReflectionLevelLabel
 @onready var talent_button := %TalentButton
 @onready var talent_level_label := %TalentLevelLabel
+@onready var damage_timer := $DamageTimer
 
 var max_health := heart
 var current_health := max_health
 var current_speed := (25.0 * speed) + BASE_SPEED
 var can_move := true
 var is_dead := false
+var invulnerable := false
+
+var filter: AudioEffectFilter = AudioServer.get_bus_effect(0, 0)
+var phaser: AudioEffectPhaser = AudioServer.get_bus_effect(0, 1)
 
 ## For leveling first level should take 10 xp and an additional 10 xp per level
 var level := 1
@@ -58,9 +66,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	
 	wand.look_at(get_global_mouse_position())
-	
-	if Input.is_action_just_pressed("level_up"):
-		level_up()
 	
 	if Input.is_action_just_pressed("horizontal_teleport") and can_move:
 		reflect_h()
@@ -120,6 +125,7 @@ func gloob_and_shoob() -> void:
 
 func reflect_h() -> void:
 	can_move = false
+	invulnerable = true
 	anim_player.stop()
 	anim_player.play("teleport_away")
 	create_teleport_particles()
@@ -129,9 +135,11 @@ func reflect_h() -> void:
 	anim_player.play("teleport_in")
 	await anim_player.animation_finished
 	can_move = true
+	invulnerable = false
 
 func reflect_v() -> void:
 	can_move = false
+	invulnerable = true
 	anim_player.stop()
 	anim_player.play("teleport_away")
 	create_teleport_particles()
@@ -140,6 +148,7 @@ func reflect_v() -> void:
 	create_teleport_particles()
 	anim_player.play("teleport_in")
 	can_move = true
+	invulnerable = false
 
 func create_teleport_particles() -> void:
 	var teleport_particles: GPUParticles2D = teleport_particles_scene.instantiate()
@@ -148,24 +157,36 @@ func create_teleport_particles() -> void:
 	self.get_parent().add_child(teleport_particles)
 
 func take_damage(damage: float) -> void:
+	if invulnerable:
+		return
 	current_health -= damage
 	camera.add_trauma(damage * 3)
 	print("Took " + str(damage) + " damage. " + str(current_health) + " remains.")
+	if damage_timer.is_stopped():
+		damage_audio_filter()
 	update_health_bar()
 	if current_health <= 0.0:
-		hide()
-		camera.trauma_power = 0.0
-		camera.trauma = 0
+		camera.disable()
+		died.emit()
 		is_dead = true
 		can_move = false
-		$CollisionShape2D.call_deferred("set_disabled", true)
+
+func reset_camera() -> void:
+	camera.reset()
 
 func update_health_bar() -> void:
 	health_bar.max_value = max_health
 	health_bar.value = current_health
 
+func heal() -> void:
+	current_health += max_health / 2.0
+	if current_health >= max_health:
+		current_health = max_health
+	update_health_bar()
+
 func gain_xp(amount: float) -> void:
 	xp += amount
+	play_xp_audio()
 	if xp >= xp_to_next_level:
 		level_up()
 		xp_to_next_level += level * 10
@@ -180,8 +201,8 @@ func level_speed() -> void:
 func level_heart() -> void:
 	heart += 1.0
 	heart_level_label.text = str(heart)
-	max_health += 1.0
-	current_health += 1.0
+	max_health += 2.0
+	current_health += 2.0
 	update_health_bar()
 	get_tree().paused = false
 	level_up_control.hide()
@@ -208,3 +229,25 @@ func level_up() -> void:
 	get_tree().paused = true
 	level += 1
 	level_up_control.show()
+
+func play_xp_audio() -> void:
+	xp_audio.stop()
+	xp_audio.seek(0.0)
+	xp_audio.pitch_scale = randf_range(0.9, 1.1)
+	xp_audio.play()
+
+func damage_audio_filter() -> void:
+	var tween := create_tween()
+	var phaser_tween := create_tween()
+	
+	tween.set_parallel(false)
+	phaser_tween.set_parallel(false)
+	tween.set_ease(Tween.EASE_OUT)
+	phaser_tween.set_ease(Tween.EASE_OUT)
+	tween.set_trans(Tween.TRANS_BOUNCE)
+	phaser_tween.set_trans(Tween.TRANS_BOUNCE)
+	tween.tween_property(filter, "cutoff_hz", 1000.0, 0.15)
+	tween.tween_property(filter, "cutoff_hz", 20500.0, 0.15)
+	phaser_tween.tween_property(phaser, "depth", 1.0, 0.15)
+	phaser_tween.tween_property(phaser, "depth", 0.1, 0.15)
+	damage_timer.start()

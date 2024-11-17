@@ -1,11 +1,14 @@
-[gd_scene load_steps=13 format=4 uid="uid://bqfy5b35353gq"]
+[gd_scene load_steps=16 format=4 uid="uid://bqfy5b35353gq"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_p6wqt"]
 [ext_resource type="Shader" path="res://scripts/background.gdshader" id="2_j26m6"]
 [ext_resource type="Texture2D" uid="uid://dcisxehdxff2n" path="res://assets/sprites/square_stone_floor.jpg" id="3_62jlg"]
+[ext_resource type="LabelSettings" uid="uid://b8hjk7u060n8e" path="res://scenes/timer_label.tres" id="3_c3cot"]
 [ext_resource type="Texture2D" uid="uid://cnsfspm34c1r" path="res://assets/sprites/blank.png" id="4_y7tyq"]
-[ext_resource type="PackedScene" uid="uid://dqilxjux1tnxu" path="res://scenes/enemies/enemy_spawner.tscn" id="5_8icev"]
+[ext_resource type="Script" path="res://scripts/spawner_group.gd" id="5_ttv5i"]
 [ext_resource type="PackedScene" uid="uid://3heotet66i6v" path="res://scenes/enemies/skull.tscn" id="6_yl8ik"]
+[ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="8_ubv3p"]
+[ext_resource type="PackedScene" uid="uid://dbm55witj6btb" path="res://scenes/enemies/slime.tscn" id="9_jba6o"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_icg5x"]
 shader = ExtResource("2_j26m6")
@@ -56,12 +59,8 @@ physics_layer_0/collision_layer = 1
 sources/3 = SubResource("TileSetAtlasSource_tkfa8")
 sources/4 = SubResource("TileSetAtlasSource_vg73u")
 
-[node name="SquaresLevel" type="Node2D" node_paths=PackedStringArray("spawners_one", "spawners_two", "spawners_three", "spawners_four", "start_point", "level_timer", "spawn_timer", "difficulty_timer", "timer_label")]
+[node name="SquaresLevel" type="Node2D" node_paths=PackedStringArray("start_point", "level_timer", "spawn_timer", "difficulty_timer", "timer_label")]
 script = ExtResource("1_p6wqt")
-spawners_one = [NodePath("EnemySpawner"), NodePath("EnemySpawner10")]
-spawners_two = [NodePath("EnemySpawner4"), NodePath("EnemySpawner8")]
-spawners_three = [NodePath("EnemySpawner6"), NodePath("EnemySpawner7"), NodePath("EnemySpawner2")]
-spawners_four = [NodePath("EnemySpawner5"), NodePath("EnemySpawner3"), NodePath("EnemySpawner9")]
 start_point = NodePath("Marker2D")
 level_timer = NodePath("LevelTimer")
 spawn_timer = NodePath("SpawnTimer")
@@ -97,52 +96,13 @@ offset_left = -20.0
 offset_right = 20.0
 offset_bottom = 23.0
 grow_horizontal = 2
+label_settings = ExtResource("3_c3cot")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(-375, -375)
 scale = Vector2(1.5, 1.5)
 tile_map_data = PackedByteArray("AAD9//7/BAAAAAAAAAD9////BAAAAAAAAAD9/wAABAAAAAAAAAD9/wEABAAAAAAAAAD9/wIABAAAAAAAAAD9/wMABAAAAAAAAAD+/wMABAAAAAAAAAD//wMABAAAAAAAAAAAAAMABAAAAAAAAAABAAMABAAAAAAAAAACAAMABAAAAAAAAAAAAP7/BAAAAAAAAAAAAP//BAAAAAAAAAAAAAAABAAAAAAAAAAAAAEABAAAAAAAAAAAAAIABAAAAAAAAAD/////AwAAAAAAAAD//wAABAAAAAAAAAD//wEAAwAAAAEAAAABAP//AwABAAAAAAABAAAABAAAAAAAAAABAAEAAwABAAEAAAACAAAABAAAAAAAAAD+/wAABAAAAAAAAAADAP7/BAAAAAAAAAADAP//BAAAAAAAAAADAAAABAAAAAAAAAADAAEABAAAAAAAAAADAAIABAAAAAAAAAD+//3/BAAAAAAAAAD///3/BAAAAAAAAAAAAP3/BAAAAAAAAAABAP3/BAAAAAAAAAACAP3/BAAAAAAAAAADAP3/BAAAAAAAAAD+/wIABAAAAAAAAAD//wIABAAAAAAAAAABAAIABAAAAAAAAAACAAIABAAAAAAAAAACAP7/BAAAAAAAAAACAP//BAAAAAAAAAACAAEABAAAAAAAAAD+//7/BAAAAAAAAAD///7/BAAAAAAAAAABAP7/BAAAAAAAAAD+////BAAAAAAAAAD+/wEABAAAAAAAAAA=")
 tile_set = SubResource("TileSet_arh5m")
-
-[node name="EnemySpawner" parent="." instance=ExtResource("5_8icev")]
-position = Vector2(-936, -623)
-enemy = ExtResource("6_yl8ik")
-
-[node name="EnemySpawner10" parent="." instance=ExtResource("5_8icev")]
-position = Vector2(-564, -848)
-enemy = ExtResource("6_yl8ik")
-
-[node name="EnemySpawner6" parent="." instance=ExtResource("5_8icev")]
-position = Vector2(-923, 838)
-enemy = ExtResource("6_yl8ik")
-
-[node name="EnemySpawner3" parent="." instance=ExtResource("5_8icev")]
-position = Vector2(631, 860)
-enemy = ExtResource("6_yl8ik")
-
-[node name="EnemySpawner9" parent="." instance=ExtResource("5_8icev")]
-position = Vector2(863, 643)
-enemy = ExtResource("6_yl8ik")
-
-[node name="EnemySpawner2" parent="." instance=ExtResource("5_8icev")]
-position = Vector2(-649, 570)
-enemy = ExtResource("6_yl8ik")
-
-[node name="EnemySpawner7" parent="." instance=ExtResource("5_8icev")]
-position = Vector2(-629, 913)
-enemy = ExtResource("6_yl8ik")
-
-[node name="EnemySpawner4" parent="." instance=ExtResource("5_8icev")]
-position = Vector2(601, -832)
-enemy = ExtResource("6_yl8ik")
-
-[node name="EnemySpawner8" parent="." instance=ExtResource("5_8icev")]
-position = Vector2(878, -666)
-enemy = ExtResource("6_yl8ik")
-
-[node name="EnemySpawner5" parent="." instance=ExtResource("5_8icev")]
-position = Vector2(536, 540)
-enemy = ExtResource("6_yl8ik")
 
 [node name="LevelTimer" type="Timer" parent="."]
 
@@ -152,3 +112,59 @@ enemy = ExtResource("6_yl8ik")
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(-969, -975)
+
+[node name="SpawnerGroup" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(-747, -755)
+script = ExtResource("5_ttv5i")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup"]
+position = Vector2(-198, 141)
+script = ExtResource("8_ubv3p")
+enemy = ExtResource("6_yl8ik")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup"]
+position = Vector2(158, -96)
+script = ExtResource("8_ubv3p")
+enemy = ExtResource("9_jba6o")
+
+[node name="SpawnerGroup2" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(752, -749)
+script = ExtResource("5_ttv5i")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup2"]
+position = Vector2(-42, 232)
+script = ExtResource("8_ubv3p")
+enemy = ExtResource("6_yl8ik")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup2"]
+position = Vector2(130, -158)
+script = ExtResource("8_ubv3p")
+enemy = ExtResource("6_yl8ik")
+
+[node name="SpawnerGroup3" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(-756, 739)
+script = ExtResource("5_ttv5i")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup3"]
+position = Vector2(-232, -68)
+script = ExtResource("8_ubv3p")
+enemy = ExtResource("6_yl8ik")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup3"]
+position = Vector2(147, 161)
+script = ExtResource("8_ubv3p")
+enemy = ExtResource("9_jba6o")
+
+[node name="SpawnerGroup4" type="Node2D" parent="." groups=["spawner_group"]]
+position = Vector2(766, 762)
+script = ExtResource("5_ttv5i")
+
+[node name="EnemySpawner" type="Node2D" parent="SpawnerGroup4"]
+position = Vector2(-195, -141)
+script = ExtResource("8_ubv3p")
+enemy = ExtResource("6_yl8ik")
+
+[node name="EnemySpawner2" type="Node2D" parent="SpawnerGroup4"]
+position = Vector2(153, 161)
+script = ExtResource("8_ubv3p")
+enemy = ExtResource("9_jba6o")

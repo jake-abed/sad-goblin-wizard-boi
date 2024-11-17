@@ -1,0 +1,97 @@
+[gd_scene load_steps=7 format=3 uid="uid://kq8a7ym2l4lc"]
+
+[ext_resource type="Script" path="res://intro_scene.gd" id="1_am3wd"]
+[ext_resource type="Theme" uid="uid://c7gqp2i6ubpwy" path="res://ui_theme.tres" id="3_4aru6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_15so6"]
+font_size = 56
+outline_size = 4
+outline_color = Color(0.698039, 0.0431373, 0.403922, 1)
+
+[sub_resource type="Animation" id="Animation_c3fsw"]
+resource_name = "scroll_up"
+length = 32.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 32),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(260, 1060), Vector2(260, -2000)]
+}
+
+[sub_resource type="Animation" id="Animation_8jpgo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(260, 1040)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jc0sn"]
+_data = {
+"RESET": SubResource("Animation_8jpgo"),
+"scroll_up": SubResource("Animation_c3fsw")
+}
+
+[node name="IntroScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_am3wd")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -700.0
+offset_top = -2540.0
+offset_right = 740.0
+offset_bottom = -543.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Once upon a time, there was a cute little Goblin Wizard...
+
+Unfortunately, he was very sad!
+
+You see, in wizard town there was a mean old walrus man named Mr. Tusk and he did not like our little Goblin Wizard Boi. He would call him names and make fun the Goblin Wizard's Rainbow and Sparkle spells.
+
+So, our little Goblin Wizard was always looking a little downcast.
+
+One day, he found a mystical scroll that claimed to have the location for a portal to a magical 'Dungeon of Reflection' where he could  get powerful and learn to not be so depressed anymore! This sounded amazing to the Goblin Boi, so he followed the directions on the scroll until he found a magic toadstool.
+
+One lick and he was teleported into the mystical, psychedelic dungeon of self-reflection and adventure."
+label_settings = SubResource("LabelSettings_15so6")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1788.0
+offset_top = 994.0
+offset_right = 1896.0
+offset_bottom = 1051.0
+theme = ExtResource("3_4aru6")
+text = "SKIP"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jc0sn")
+}

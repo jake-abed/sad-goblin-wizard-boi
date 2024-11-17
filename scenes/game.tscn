@@ -1,21 +1,30 @@
 [gd_scene load_steps=5 format=3 uid="uid://btnhh6mxbkjgm"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_g62n2"]
-[ext_resource type="PackedScene" uid="uid://b4ulnrrbsrda8" path="res://scenes/levels/plus_level.tscn" id="2_ie7bw"]
 [ext_resource type="AudioStream" uid="uid://b72f0jywgp83v" path="res://assets/audio/gobbo_jam.wav" id="3_ea4hg"]
 [ext_resource type="PackedScene" uid="uid://bwej53v84rump" path="res://scenes/player.tscn" id="4_sw6kw"]
+[ext_resource type="PackedScene" uid="uid://danoj73o36ix3" path="res://scenes/reflection.tscn" id="5_clrxo"]
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("player", "music")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("player", "music", "reflection")]
+position = Vector2(15, 8)
 script = ExtResource("1_g62n2")
 player = NodePath("Player")
 music = NodePath("AudioStreamPlayer")
-possible_levels = Array[PackedScene]([ExtResource("2_ie7bw")])
+reflection = NodePath("UI/Reflection")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
 stream = ExtResource("3_ea4hg")
 bus = &"Music"
 
 [node name="Level" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("4_sw6kw")]
-position = Vector2(-1969, -1684)
+position = Vector2(-986, -548)
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Reflection" parent="UI" node_paths=PackedStringArray("player") instance=ExtResource("5_clrxo")]
+visible = false
+player = NodePath("../../Player")

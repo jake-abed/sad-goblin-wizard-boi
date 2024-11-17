@@ -1,7 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://c63y6b25bs4bk"]
+[gd_scene load_steps=20 format=3 uid="uid://c63y6b25bs4bk"]
 
 [ext_resource type="PackedScene" uid="uid://byvydukidk6i2" path="res://addons/maaacks_game_template/examples/scenes/menus/main_menu/main_menu.tscn" id="1_jscf0"]
 [ext_resource type="Script" path="res://scripts/main_menu_with_animations.gd" id="2_s0vp1"]
+[ext_resource type="Texture2D" uid="uid://c7bvtdvwnlb7c" path="res://assets/sprites/mirror.png" id="3_4wrol"]
+[ext_resource type="Texture2D" uid="uid://5wnblmij74on" path="res://assets/sprites/mirror-sheen.png" id="4_qfyac"]
+[ext_resource type="Texture2D" uid="uid://dissfi38hvqcm" path="res://assets/sprites/sad-goblin-wizard-boi.png" id="5_s3cyg"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "Intro"
@@ -347,9 +350,14 @@ states/Start/position = Vector2(82, 123)
 transitions = ["Intro", "OpenMainMenu", SubResource("11"), "OpenMainMenu", "OpenSubMenu", SubResource("14"), "Start", "Intro", SubResource("AnimationNodeStateMachineTransition_j0orr"), "OpenSubMenu", "OpenMainMenu", SubResource("AnimationNodeStateMachineTransition_63dxc")]
 graph_offset = Vector2(-180.277, 49)
 
+[sub_resource type="LabelSettings" id="LabelSettings_mn6sc"]
+font_size = 28
+
 [node name="MainMenu" instance=ExtResource("1_jscf0")]
+offset_top = -1.0
+offset_bottom = -1.0
 script = ExtResource("2_s0vp1")
-game_scene_path = "res://scenes/game.tscn"
+game_scene_path = "res://scenes/intro_scene.tscn"
 
 [node name="MenuAnimationPlayer" type="AnimationPlayer" parent="." index="1"]
 libraries = {
@@ -381,3 +389,31 @@ modulate = Color(1, 1, 1, 0)
 
 [node name="MenuButtonsBoxContainer" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer" index="0"]
 lock = true
+
+[node name="MirrorFrame" type="Sprite2D" parent="." index="10"]
+position = Vector2(434.56, 560)
+texture = ExtResource("3_4wrol")
+
+[node name="MirrorClip" type="Sprite2D" parent="." index="11"]
+clip_children = 2
+position = Vector2(436.56, 559)
+scale = Vector2(1.02, 1)
+texture = ExtResource("4_qfyac")
+
+[node name="GoblinSprite" type="Sprite2D" parent="MirrorClip" index="0"]
+position = Vector2(4.95049, -1.96041)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("5_s3cyg")
+
+[node name="Label" type="Label" parent="." index="12"]
+layout_mode = 0
+offset_left = 143.0
+offset_top = 847.0
+offset_right = 740.0
+offset_bottom = 1012.0
+text = "WARNING:
+The game will hang while loading in after
+the scrolling intro story. It will take up to
+30 seconds so please be patient."
+label_settings = SubResource("LabelSettings_mn6sc")
+horizontal_alignment = 1

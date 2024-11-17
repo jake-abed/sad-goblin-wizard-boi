@@ -3,7 +3,7 @@ extends Attack
 @export var cooldown_timer: Timer
 
 func _ready() -> void:
-	cooldown_timer.wait_time = 1.0 - log(player.talent) / log(70.0)
+	cooldown_timer.wait_time = 1.0 - log(player.talent) / log(31.0)
 	cooldown_timer.timeout.connect(_on_cooldown_timeout)
 
 func attack() -> void:
@@ -24,7 +24,7 @@ func set_projectile_attributes(p: Projectile) -> Projectile:
 
 func _on_cooldown_timeout() -> void:
 	cooldown_timer.stop()
-	var new_wait := 1.05 - log(player.talent) / log(70.0)
+	var new_wait := 1.1 - log(player.talent) / log(31.0)
 	if new_wait <= 0.0:
 		new_wait = 0.01
 	cooldown_timer.wait_time = new_wait

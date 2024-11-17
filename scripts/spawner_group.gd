@@ -1,0 +1,1 @@
+class_name SpawnerGroup extends Node2D

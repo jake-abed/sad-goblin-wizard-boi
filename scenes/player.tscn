@@ -1,17 +1,18 @@
-[gd_scene load_steps=20 format=3 uid="uid://bwej53v84rump"]
+[gd_scene load_steps=21 format=3 uid="uid://bwej53v84rump"]
 
 [ext_resource type="Texture2D" uid="uid://dissfi38hvqcm" path="res://assets/sprites/sad-goblin-wizard-boi.png" id="1_5ftme"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_lli1f"]
 [ext_resource type="Shader" path="res://scripts/outline.gdshader" id="2_vmp0l"]
 [ext_resource type="Texture2D" uid="uid://cr2vflamgev7n" path="res://assets/sprites/magic_wand.png" id="3_pkvwv"]
 [ext_resource type="PackedScene" uid="uid://c6ewon66b6v4d" path="res://scenes/attacks/sparkle_shot.tscn" id="5_1ri5w"]
-[ext_resource type="Script" path="res://scenes/shake_camera.gd" id="5_qngni"]
+[ext_resource type="Script" path="res://scripts/shake_camera.gd" id="5_qngni"]
 [ext_resource type="PackedScene" uid="uid://bd50818bkurd5" path="res://scenes/attacks/rainbow_wave.tscn" id="6_rdnal"]
 [ext_resource type="Script" path="res://scripts/hurt_box.gd" id="7_i3tmc"]
-[ext_resource type="PackedScene" uid="uid://8s0hhwdrxunk" path="res://scenes/attacks/rainbow.tscn" id="7_nnja8"]
 [ext_resource type="Texture2D" uid="uid://bfgq216riclpc" path="res://assets/sprites/bottle-glass.png" id="7_w4p5s"]
+[ext_resource type="PackedScene" uid="uid://8s0hhwdrxunk" path="res://scenes/attacks/rainbow.tscn" id="8_kerwv"]
 [ext_resource type="Theme" uid="uid://c7gqp2i6ubpwy" path="res://ui_theme.tres" id="8_wgid0"]
 [ext_resource type="Texture2D" uid="uid://cnslsenevtdd8" path="res://assets/sprites/bottle-liquid.png" id="8_xn6or"]
+[ext_resource type="AudioStream" uid="uid://8kig0yti44gc" path="res://assets/audio/xp_ping.wav" id="13_fo7dq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8d5qj"]
 shader = ExtResource("2_vmp0l")
@@ -84,7 +85,7 @@ _data = {
 radius = 22.0
 height = 98.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera", "sprite", "wand", "anim_player", "current_attack", "secondary_attack", "hurtbox", "health_bar")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera", "sprite", "wand", "anim_player", "current_attack", "secondary_attack", "hurtbox", "health_bar", "xp_audio")]
 texture_filter = 4
 script = ExtResource("1_lli1f")
 camera = NodePath("Camera2D")
@@ -95,6 +96,7 @@ current_attack = NodePath("SparkleShot")
 secondary_attack = NodePath("RainbowWave")
 hurtbox = NodePath("HurtBox")
 health_bar = NodePath("CanvasLayer/HUD/HealthBar")
+xp_audio = NodePath("AudioStreamPlayer")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_8d5qj")
@@ -122,6 +124,7 @@ position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 script = ExtResource("5_qngni")
 decay = 5.0
+max_offset = Vector2(50, 37)
 max_roll = 0.2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -141,11 +144,15 @@ base_speed = 350.0
 cooldown_timer = NodePath("Timer")
 player = NodePath("..")
 spawn = NodePath("../Sprite2D/WandSprite/Marker2D")
-base_damage = 0.25
-base_speed = 200.0
-projectile = ExtResource("7_nnja8")
+base_damage = 1.0
+base_speed = 250.0
+projectile = ExtResource("8_kerwv")
 
 [node name="Timer" type="Timer" parent="RainbowWave"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_fo7dq")
+bus = &"SFX"
 
 [node name="HurtBox" type="Area2D" parent="."]
 script = ExtResource("7_i3tmc")
@@ -317,3 +324,7 @@ text = "3"
 unique_name_in_owner = true
 layout_mode = 2
 text = "+"
+
+[node name="DamageTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true

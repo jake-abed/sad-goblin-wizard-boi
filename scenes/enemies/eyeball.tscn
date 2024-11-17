@@ -1,0 +1,108 @@
+[gd_scene load_steps=15 format=3 uid="uid://cqunbngtlwxru"]
+
+[ext_resource type="Script" path="res://scenes/enemies/eyeball.gd" id="1_cx6ds"]
+[ext_resource type="PackedScene" uid="uid://cdcpuuy7rf00" path="res://scenes/xp.tscn" id="2_6qc17"]
+[ext_resource type="Texture2D" uid="uid://tcc0t2wfm4s4" path="res://assets/sprites/eyeball.png" id="2_ogitl"]
+[ext_resource type="Script" path="res://scripts/eyeball_wander_state.gd" id="4_jbhgv"]
+[ext_resource type="Script" path="res://scripts/state_machine.gd" id="4_rxjs4"]
+[ext_resource type="Script" path="res://scripts/eyeball_chasing_state.gd" id="5_7c5fs"]
+[ext_resource type="Script" path="res://scripts/skull_pause_state.gd" id="7_xcauj"]
+[ext_resource type="Script" path="res://scripts/hit_box.gd" id="8_in1n1"]
+[ext_resource type="AudioStream" uid="uid://brwt3ubvjxj3x" path="res://assets/audio/hit.wav" id="9_wls8t"]
+
+[sub_resource type="Gradient" id="Gradient_f47nm"]
+colors = PackedColorArray(0, 0, 0, 0.654902, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sw6c8"]
+gradient = SubResource("Gradient_f47nm")
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.853211, 0.477064)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6wj67"]
+radius = 26.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ieekk"]
+radius = 800.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rd41j"]
+radius = 28.0
+
+[node name="Eyeball" type="CharacterBody2D" node_paths=PackedStringArray("wander_state", "pause_state", "chasing_state", "contact_area", "sprite", "state_machine") groups=["enemy"]]
+script = ExtResource("1_cx6ds")
+wander_state = NodePath("SkullStateMachine/Wander")
+pause_state = NodePath("SkullStateMachine/Pause")
+chasing_state = NodePath("SkullStateMachine/Chasing")
+contact_area = NodePath("ContactArea")
+sprite = NodePath("Sprite2D")
+state_machine = NodePath("SkullStateMachine")
+xp = ExtResource("2_6qc17")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 36)
+texture = SubResource("GradientTexture2D_sw6c8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_ogitl")
+
+[node name="SkullStateMachine" type="Node" parent="." node_paths=PackedStringArray("states", "current_state")]
+script = ExtResource("4_rxjs4")
+states = [NodePath("Wander")]
+current_state = NodePath("Wander")
+
+[node name="Wander" type="Node" parent="SkullStateMachine" node_paths=PackedStringArray("wander_marker", "wander_pivot", "timer", "actor")]
+script = ExtResource("4_jbhgv")
+wander_marker = NodePath("../../WanderPivot/WanderMarker")
+wander_pivot = NodePath("../../WanderPivot/WanderMarker")
+timer = NodePath("Timer")
+actor = NodePath("../..")
+
+[node name="Timer" type="Timer" parent="SkullStateMachine/Wander"]
+wait_time = 1.5
+one_shot = true
+
+[node name="Chasing" type="Node" parent="SkullStateMachine" node_paths=PackedStringArray("actor")]
+script = ExtResource("5_7c5fs")
+actor = NodePath("../..")
+
+[node name="Pause" type="Node" parent="SkullStateMachine" node_paths=PackedStringArray("timer", "actor")]
+script = ExtResource("7_xcauj")
+timer = NodePath("Timer")
+actor = NodePath("../..")
+
+[node name="Timer" type="Timer" parent="SkullStateMachine/Pause"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6wj67")
+
+[node name="WanderPivot" type="Node2D" parent="."]
+
+[node name="WanderMarker" type="Marker2D" parent="WanderPivot"]
+position = Vector2(128, 0)
+
+[node name="ContactArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactArea"]
+shape = SubResource("CircleShape2D_ieekk")
+
+[node name="HitBox" type="Area2D" parent="."]
+script = ExtResource("8_in1n1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_rd41j")
+
+[node name="Timer" type="Timer" parent="HitBox"]
+wait_time = 0.1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_wls8t")
+volume_db = 5.0
+max_distance = 1000.0
+
+[node name="AudioTimer" type="Timer" parent="AudioStreamPlayer2D"]
+wait_time = 0.25
+one_shot = true
+
+[node name="AttackTimer" type="Timer" parent="."]

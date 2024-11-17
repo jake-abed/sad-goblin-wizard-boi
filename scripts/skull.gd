@@ -9,13 +9,15 @@ const BASE_ATTACK := 1.0
 @export var chasing_state: State
 @export var contact_area: Area2D
 @export var level := 1
-@export var xp_val := 10.0
+@export var xp_val := 5.0
 @export var hitbox_radius := 25.0
 
 @onready var shadow := $Shadow
 @onready var hitbox := $HitBox
 @onready var hitbox_shape: CircleShape2D = $HitBox/CollisionShape2D.shape
 @onready var hitbox_timer := $HitBox/Timer
+@onready var hit_audio := $AudioStreamPlayer2D
+@onready var audio_timer := $AudioStreamPlayer2D/AudioTimer
 
 var target: Player
 var speed: float
@@ -24,6 +26,11 @@ var attack: float
 
 
 func _ready() -> void:
+	var tween := create_tween()
+	tween.set_ease(Tween.EASE_IN)
+	var init_scale := self.scale
+	self.scale *= 0.01
+	tween.tween_property(self, "scale", init_scale, 0.2)
 	contact_area.body_entered.connect(_on_body_entered)
 	contact_area.body_exited.connect(_on_body_exited)
 	hitbox.area_entered.connect(_on_hitbox_entered)
@@ -67,11 +74,18 @@ func take_damage(damage: float) -> void:
 	tween.tween_property(sprite, "scale", sprite_scale * (1 - (damage * 0.03)), 0.1)
 	tween.tween_property(sprite, "scale", sprite_scale, 0.1)
 	health -= damage
+	if audio_timer.is_stopped():
+		play_hit_damage()
 	if health <= 0.0:
 		var xp_scene: Xp = xp.instantiate()
 		xp_scene.value = xp_val * level
 		xp_scene.global_position = global_position
 		get_tree().root.call_deferred("add_child", xp_scene)
+		if hit_audio.playing:
+			$CollisionShape2D.queue_free()
+			hitbox.queue_free()
+			hide()
+			await hit_audio.finished
 		queue_free()
 
 func _on_body_entered(node: Node2D) -> void:
@@ -110,3 +124,9 @@ func _on_hitbox_entered(node: Node) -> void:
 func _on_hitbox_timeout() -> void:
 	hitbox_shape.radius = hitbox_radius
 	hitbox_timer.stop()
+
+func play_hit_damage() -> void:
+	hit_audio.stop()
+	hit_audio.pitch_scale = randf_range(0.95, 1.05)
+	hit_audio.play()
+	audio_timer.start()
