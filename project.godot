@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="Sad Goblin Wizard Boi & The Dungeon of Reflection"
-config/version="1.0.0"
-run/main_scene="res://scenes/main_menu_with_animations.tscn"
+config/version="1.0.1"
+run/main_scene="res://addons/maaacks_game_template/base/scenes/opening/opening.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 

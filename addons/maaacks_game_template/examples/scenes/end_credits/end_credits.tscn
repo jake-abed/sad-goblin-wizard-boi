@@ -33,11 +33,7 @@ stretch_mode = 5
 [node name="ScrollContainer" parent="." index="3"]
 scroll_vertical = 0
 
-[node name="HeaderSpace" parent="ScrollContainer/VBoxContainer" index="0"]
-custom_minimum_size = Vector2(0, 1080)
-
 [node name="CreditsLabel" parent="ScrollContainer/VBoxContainer" index="1"]
-custom_minimum_size = Vector2(1920, 0)
 text = "[center][font_size=48]The Genya Games Team[/font_size]
 
 [font_size=32]Game Design[/font_size]
@@ -96,9 +92,6 @@ Author: [url=https://github.com/Maaack/Godot-Game-Template/graphs/contributors]M
 Source: [url=https://github.com/Maaack/Godot-Game-Template]github: Godot-Game-Template[/url]  
 License: [url=LICENSE.txt]MIT License[/url]  
 [/center]"
-
-[node name="FooterSpace" parent="ScrollContainer/VBoxContainer" index="2"]
-custom_minimum_size = Vector2(0, 1080)
 
 [node name="CenterContainer" type="CenterContainer" parent="." index="4"]
 layout_mode = 0

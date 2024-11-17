@@ -97,7 +97,7 @@ signal dialog_chosen(result: String)
 	},
 	{
 		"text": "Huh, I wonder how much time I've spent down here? I'm having fun.",
-		"response": "I'm not sure, but you're having time and that's what counts. Seems like you'll be out of here soon though.",
+		"response": "I'm not sure, but you're having a good time and that's what counts. Seems like you'll be out of here soon though.",
 		"result": "nothing"
 	},
 	{

@@ -372,6 +372,9 @@ parameters/conditions/intro_done = false
 [node name="VersionContainer" parent="VersionMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
 
+[node name="VersionLabel" parent="VersionMargin/VersionContainer" index="0"]
+text = "v1.0.0"
+
 [node name="TitleContainer" parent="MenuContainer/TitleMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
 
@@ -414,6 +417,6 @@ offset_bottom = 1012.0
 text = "WARNING:
 The game will hang while loading in after
 the scrolling intro story. It will take up to
-30 seconds so please be patient."
+a minute plus, so please be patient!"
 label_settings = SubResource("LabelSettings_mn6sc")
 horizontal_alignment = 1

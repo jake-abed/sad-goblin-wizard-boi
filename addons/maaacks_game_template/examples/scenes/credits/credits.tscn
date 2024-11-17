@@ -7,23 +7,49 @@
 script = ExtResource("2_q7msw")
 attribution_file_path = "res://addons/maaacks_game_template/examples/ATTRIBUTION.md"
 
+[node name="HeaderSpace" parent="ScrollContainer/VBoxContainer" index="0"]
+custom_minimum_size = Vector2(0, 1080)
+
 [node name="CreditsLabel" parent="ScrollContainer/VBoxContainer" index="1"]
-text = "[center][font_size=48]Collaborators[/font_size]
+custom_minimum_size = Vector2(1920, 0)
+text = "[center][font_size=48]The Genya Games Team[/font_size]
 
-[font_size=32]Role[/font_size]
-Person 1  
-Person 2  
-[url=]Person w/ Link[/url]  
+[font_size=32]Game Design[/font_size]
+Jake Abed
 
+[font_size=32]Programming[/font_size]
+Jake Abed
 
-[font_size=48]Sourced / Unaffiliated[/font_size]
-[font_size=32]Asset Type[/font_size]
-[font_size=24]Use Case[/font_size]
-Author: [url=]Name[/url]  
-Source: [url=]Domain : webpage.html[/url]  
-License: [url=]License[/url]
+[font_size=32]Audio[/font_size]
+Jake Abed
 
-[font_size=32]Godot Wild Jam Logos[/font_size]
+[font_size=32]Illustrations[/font_size]
+Jake Abed
+
+[font_size=32][b]Genya Games[/b][/font_size]
+[font_size=24]Putting The I In Team[/font_size]
+
+[font_size=48]Special Thanks To:[/font_size]
+- Ashley Campbell
+- Ty Daniels
+- Sevadusk
+- kim_dev
+- The Entire GWJ Community!
+
+[font_size=64]Attribution[/font_size]
+
+[font_size=48]Shaders[/font_size]
+[font_size=32]Combustible Voronoi with Parameters[/font_size]
+Author: [url=https://godotshaders.com/author/grimbeef/]grimbeef[/url]  
+Source: [url=https://godotshaders.com/shader/combustible-voronoi-with-parameters/]Godot Shaders[/url]  
+License: CC0
+
+[font_size=32]Various Canvas Outlines[/font_size]
+Author: [url=https://godotshaders.com/author/nahtrex/]NahtreX[/url]  
+Source: [url=https://godotshaders.com/shader/various-canvas-outlines/]Godot Shaders[/url]  
+License: CC0
+
+[font_size=48]Godot Wild Jam Logos[/font_size]
 Author: [url=https://coreyaroberts.com/]Dawk[/url]  
 Source: [url=https://godotwildjam.com/branding/]godotwildjam.com[/url]  
 License: Copyrighted
@@ -44,3 +70,6 @@ Author: [url=https://github.com/Maaack/Godot-Game-Template/graphs/contributors]M
 Source: [url=https://github.com/Maaack/Godot-Game-Template]github: Godot-Game-Template[/url]  
 License: [url=LICENSE.txt]MIT License[/url]  
 [/center]"
+
+[node name="FooterSpace" parent="ScrollContainer/VBoxContainer" index="2"]
+custom_minimum_size = Vector2(0, 1080)

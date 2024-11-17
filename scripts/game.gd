@@ -117,13 +117,18 @@ func handle_result(result: String) -> void:
 			pass
 		"buff_speed":
 			player.level_speed()
+			player.level_speed()
 		"buff_heart":
+			player.level_heart()
 			player.level_heart()
 		"buff_attack":
 			player.level_attack()
+			player.level_attack()
 		"buff_reflection":
 			player.level_reflection()
+			player.level_reflection()
 		"buff_talent":
+			player.level_talent()
 			player.level_talent()
 		"debuff_speed":
 			player.level_speed()
